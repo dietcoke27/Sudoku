@@ -9,7 +9,7 @@ import javax.swing.*;
 public class SudokuFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel rootPanel;
+//	private JPanel rootPanel;
 	
 	public SudokuFrame() {
 		this.setupUI();
@@ -18,20 +18,16 @@ public class SudokuFrame extends JFrame {
 	public void setupUI() {
 		this.setBackground(Color.gray);
 		
-		this.rootPanel = new JPanel();
-		this.rootPanel.setLayout(new GridLayout(3, 1));
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.red);
-		this.rootPanel.add(panel);
-		panel = new JPanel();
-		panel.setBackground(Color.blue);
-		this.rootPanel.add(panel);
-		panel = new JPanel();
-		panel.setBackground(Color.green);
-		this.rootPanel.add(panel);
+		Color[] colors = {Color.red, Color.blue, Color.green};
+		this.getContentPane().setLayout(new GridLayout(3, 1));
 		
-		this.getContentPane().add(this.rootPanel);
-		this.setSize(1000, 400);
+		for (Color c: colors) {
+			
+			JPanel panel = new JPanel();
+			panel.setBackground(c);
+			this.getContentPane().add(panel);
+		}
+		this.setSize(400, 400);
 	}
 	
 	public static void main(String args[]) {
