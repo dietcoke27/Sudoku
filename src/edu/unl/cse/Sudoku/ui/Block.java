@@ -59,6 +59,6 @@ public class Block {
 	 * Method to remove ALL notes from a Block
 	 */
 	void clearNotes(){
-		
+		//TODO:
 	}
 }
