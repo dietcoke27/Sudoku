@@ -28,6 +28,22 @@ public class Block {
 	}
 	
 	/**
+	 * Returns if the current block is editable
+	 * @return
+	 */
+	public boolean isEditable() {
+		return editable;
+	}
+
+	/**
+	 * Setter for the edit-ability of the block
+	 * @param editable
+	 */
+	public void setEditable(boolean editable) {
+		this.editable = editable;
+	}
+	
+	/**
 	 * Getter for the notes of this block
 	 * @return notes
 	 */
