@@ -19,10 +19,9 @@ public class SudokuFrame extends JFrame {
 	private static boolean winScreenShown = false;
 	private static int difficulty;
 	private long gameTimer;
-	private int selectedRow;
-	private int selectedCol;
+	private int selectedRow = 0;
+	private int selectedCol = 0;
 	private static Block[][] currentGame;
-	private boolean gameWon;
 	static Stack moves;
 	boolean editingNotes;
 
@@ -39,9 +38,11 @@ public class SudokuFrame extends JFrame {
 		//create loop for game play
 		while (true) {
 			// display start screen
+			int delay = 1000000000;
 			while (titleScreenShown) {
-				System.out.println("title Screen");
-				for(int i =0; i< 100000; i++);//add delay for printing
+//				System.out.println("title Screen");
+				frame.showTitleScreen();
+				for(int i =0; i< delay; i++);//add delay for printing
 			}
 			// select difficulty
 			difficulty = 3;
@@ -51,12 +52,14 @@ public class SudokuFrame extends JFrame {
 
 			// display the game screen
 			while (gameScreenShown) {
-				System.out.println("game Screen");
-				for(int i =0; i< 100000; i++);//add delay for printing
+//				System.out.println("game Screen");
+				frame.showGameScreen();
+				for(int i =0; i< delay; i++);//add delay for printing
 			}
 			while (winScreenShown){
-				System.out.println("win Screen");
-				for(int i =0; i< 100000; i++);//add delay for printing
+//				System.out.println("win Screen");
+				frame.showWinScreen();
+				for(int i =0; i< delay; i++);//add delay for printing
 			}
 		}
 	}
@@ -75,20 +78,43 @@ public class SudokuFrame extends JFrame {
 		this.setupUI();
 	}
 
-
+	/**
+	 * This method is intended to display all relevant pieces of the title screen
+	 */
+	public void showTitleScreen(){
+		this.getContentPane().setBackground(Color.red);
+	}
+	
+	/**
+	 * This method is intended to display all relevant pieces of the game screen
+	 */
+	public void showGameScreen(){
+		this.getContentPane().setBackground(Color.blue);
+	}
+	
+	/**
+	 * This method is intended to display all relevant pieces of the win screen
+	 */
+	public void showWinScreen(){
+		this.getContentPane().setBackground(Color.green);
+	}
+	
 	/**
 	 * Method to set up the visual arrangement of the screen
 	 */
 	public void setupUI() {
-		Color[] colors = { Color.red, Color.blue, Color.green };			
-			this.getContentPane().setLayout(new GridLayout(9, 9));
-			for (int r = 0; r < 9; r++) {
-				for (int c = 0; c < 9; c++) {
-					JPanel panel = new JPanel();
-					panel.setBackground(colors[(r + c) % 3]);
-					this.getContentPane().add(panel);
-				}
-			}
+//		Color[] colors = { Color.red, Color.blue, Color.green };			
+//			this.getContentPane().setLayout(new GridLayout(9, 9));
+//			for (int r = 0; r < 9; r++) {
+//				for (int c = 0; c < 9; c++) {
+//					JPanel panel = new JPanel();
+//					panel.setBackground(colors[(r + c) % 3]);
+//					this.getContentPane().add(panel);
+//				}
+//			}
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.gray);
+		
 	}
 
 	/**
@@ -157,6 +183,10 @@ public class SudokuFrame extends JFrame {
 	 */
 	static boolean checkGameValid() {
 		// check if the row and column are valid
+		//TODO: OPTIMIZE CHECK GAME TO BE FASTER
+		//TODO: IMPLEMENT A SINGLE METHOD TO CHECK A SINGLE ROW AND COLUMN FASTER
+		//TODO: CHANGE FROM HANDLING NULL BLOCKS TO HANDLING ZERO VALUED BLOCKS
+		
 		if (checkRowsValid() == false ||checkColsValid() == false ||checkBoxes() == false) {
 			return false;
 		}
@@ -215,11 +245,15 @@ public class SudokuFrame extends JFrame {
 		// check every element vs every other element in the row
 		for (int c = 0; c < 9; c++) {
 			for (int c2 = c + 1; c2 < 9; c2++) {
+				//check if the two elements are not null
 				if (currentGame[r][c] != null && currentGame[r][c2] != null) {
-					// if two elements in a row are equal, return false
-					if (currentGame[r][c].getValue() == currentGame[r][c2]
-							.getValue()) {
-						return false;
+					//make sure they are also non zero because zero is considered "empty"
+					if (currentGame[r][c].getValue() != 0 && currentGame[r][c2].getValue() != 0) {
+						// if two elements in a row are equal, return false
+						if (currentGame[r][c].getValue() == currentGame[r][c2]
+								.getValue()) {
+							return false;
+						}
 					}
 				}
 			}
@@ -254,7 +288,7 @@ public class SudokuFrame extends JFrame {
 		for (int r = 0; r < 9; r++) {
 			for (int r2 = r + 1; r2 < 9; r2++) {
 				// if two elements in a column are equal, return false
-				if (currentGame[r][c] != null && currentGame[r2][c] != null) {
+				if (currentGame[r][c].getValue() != 0 && currentGame[r2][c].getValue() != 0) {
 					if (currentGame[r][c].getValue() == currentGame[r2][c]
 							.getValue()) {
 						return false;
@@ -303,6 +337,11 @@ public class SudokuFrame extends JFrame {
 	public static boolean checkBox(Block[][] box) {
 		//for every element in the matrix
 		for (int i = 0; i < 9; i++) {
+			//if the element we are checking is zero, ignore it
+			if(box[i / 3][i % 3].getValue() == 0){
+				continue;
+			}
+			
 			//check against every other element in the matrix
 			for (int j = i + 1; j < 9; j++) {
 				//if the values of the two elements are the same, return false.
@@ -398,7 +437,7 @@ public class SudokuFrame extends JFrame {
 					col = rand.nextInt(9);
 					
 				}while(currentGame[r][col] == null);
-				currentGame[r][col] = null;
+				currentGame[r][col].setValue(0);
 			}
 			
 		}
@@ -426,7 +465,58 @@ public class SudokuFrame extends JFrame {
 	private class KL extends KeyAdapter{
 		public void keyReleased(KeyEvent e){
 			//TODO: WRITE KEYRELEASED CODE FOR KL AND FOR SUKOKUFRAME
-			System.out.println("KeyReleased: "+e.getKeyChar());
+			//handle out of bounds selected blocks
+			if(selectedRow >8 || selectedCol >8 || selectedRow <0 || selectedCol <0){
+				return;
+			}
+			//parse which key was pressed
+			int val =0;
+			switch(e.getKeyChar()){
+			case '1':
+				val=1;
+				break;
+			case '2':
+				val=2;
+				break;
+			case '3':
+				val=3;
+				break;
+			case '4':
+				val=4;
+				break;
+			case '5':
+				val=5;
+				break;
+			case '6':
+				val=6;
+				break;
+			case '7':
+				val=7;
+				break;
+			case '8':
+				val=8;
+				break;
+			case '9':
+				val=9;
+				break;
+			case '':
+				//TODO: HANDLE THE BACKSPACE KEY BEING PRESSED
+				break;
+			default:
+				System.out.println(e.getKeyChar());
+				break;
+			}			
+			//if the block is non null but is editable, proceed
+			if (currentGame[selectedRow][selectedCol] != null && (currentGame[selectedRow][selectedCol].isEditable())){
+				//if we are editing notes, then add the key pressed as a note to the selected Block
+				if(editingNotes){
+					currentGame[selectedRow][selectedCol].addNote(val);
+				//otherwise change the value of the block
+				}else{
+					currentGame[selectedRow][selectedCol].setValue(val);
+				}
+			}
+//			System.out.println("KeyReleased: "+e);
 		}
 	}
 //------------------------END KEY LISTENER CLASS--------------------
@@ -455,6 +545,7 @@ public class SudokuFrame extends JFrame {
 		}
 		
 		public void mouseReleased(MouseEvent e){
+			//TODO: IMPLEMENT MORE DETAILED MOUSE RELEASED METHOD, OR IMPLEMENT MOUSEPRESSED OR MOUSE CLICKED
 			System.out.println("release");
 			//is called when one of the mouse buttons is released
 			if(titleScreenShown){
