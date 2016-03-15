@@ -2,11 +2,11 @@ package edu.unl.cse.Sudoku.ui;
 
 public class Node {
 
-	private Node nextNode;
+	private Node nodeBelow;
 	private Change change;
 	
-	public Node(Node next, Change lastChange){
-		this.nextNode = next;
+	public Node(Node below, Change lastChange){
+		this.nodeBelow = below;
 		this.change = lastChange;
 	}
 
@@ -14,16 +14,16 @@ public class Node {
 	 * Getter for the next node in the stack
 	 * @return
 	 */
-	public Node getNextNode() {
-		return nextNode;
+	public Node getNodeBelow() {
+		return nodeBelow;
 	}
 
 	/**
 	 * Setter for the next node variable of this node
-	 * @param nextNode
+	 * @param nodeBelow
 	 */
-	public void setNextNode(Node nextNode) {
-		this.nextNode = nextNode;
+	public void setNodeBelow(Node nodeBelow) {
+		this.nodeBelow = nodeBelow;
 	}
 
 	/**
