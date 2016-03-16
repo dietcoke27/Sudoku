@@ -6,7 +6,10 @@ import java.awt.GridLayout;
 
 import javax.swing.*;
 
-public class SudokuFrame extends JFrame {
+import edu.unl.cse.Sudoku.model.Block;
+import edu.unl.cse.Sudoku.model.Stack;
+
+public class SudokuPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private boolean titleScreenShown;
@@ -20,28 +23,16 @@ public class SudokuFrame extends JFrame {
 	private boolean gameWon;
 	private Stack moves;
 	private boolean editingNotes;
+	private BlockPanel[][] gamePanels = new BlockPanel[9][9];
 //	private JPanel rootPanel;
-	
-	/**
-	 * Main execution body
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		//create the window for the game
-		SudokuFrame frame = new SudokuFrame();
-		
-	
-	}
 	
 	/**
 	 * SudokuFrame constructor
 	 */
-	public SudokuFrame() {
+	public SudokuPanel() {
 		this.setupUI();
-		this.setVisible(true);
 		this.setFocusable(true);
 		this.setSize(400, 400);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	/**
@@ -50,17 +41,13 @@ public class SudokuFrame extends JFrame {
 	public void setupUI() {
 		this.setBackground(Color.gray);
 		Color[] colors = {Color.red, Color.blue, Color.green};
-		this.getContentPane().setLayout(new GridLayout(9, 9));
-//		for (Color c: colors) {
-//			JPanel panel = new JPanel();
-//			panel.setBackground(c);
-//			this.getContentPane().add(panel);
-//		}
+		this.setLayout(new GridLayout(9, 9));
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
-				JPanel panel = new JPanel();
-				panel.setBackground(colors[(i+j)%3]);
-				this.getContentPane().add(panel);
+				BlockPanel panel = new BlockPanel();
+				this.gamePanels[i][j] = panel;
+				panel.displayNumberBlock.setBackground(colors[(i+j)%3]);
+				this.add(panel);
 			}
 		}
 	}

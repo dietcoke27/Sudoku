@@ -1,4 +1,4 @@
-package edu.unl.cse.Sudoku.ui;
+package edu.unl.cse.Sudoku.model;
 
 public class Stack {
 	

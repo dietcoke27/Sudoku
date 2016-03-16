@@ -1,4 +1,4 @@
-package edu.unl.cse.Sudoku.ui;
+package edu.unl.cse.Sudoku.model;
 
 public class Block {
 
@@ -7,6 +7,7 @@ public class Block {
 	private int[] notes= {};
 	
 	public Block(int value, boolean editable){
+		
 		this.value = value;
 		this.editable = editable;
 	}
