@@ -472,6 +472,23 @@ public class SudokuFrame extends JFrame {
 				}
 			}
 		}
+	public static void checkComplete(){
+		for(int i=0;i<9; i++)
+		{
+			for(int j = 0;j<9;j++)
+			{
+				if(currentGame[i][j].getValue() ==0)
+				{
+					return false;
+				}
+			}
+		}
+		if(checkValid()== true)
+		{
+		gameScreenShown = false;
+		winScreenShown = true;
+		}
+	}
 	}
 	
 //-------------------------KEY LISTENER CLASS-----------------------
@@ -534,6 +551,7 @@ public class SudokuFrame extends JFrame {
 				}
 			}
 			printBlockMatrix(currentGame, 9);
+			checkComplete();
 //			System.out.println("KeyReleased: "+e);
 		}
 	}
