@@ -1,6 +1,7 @@
 package edu.unl.cse.Sudoku.ui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.KeyAdapter;
@@ -27,6 +28,7 @@ public class SudokuPanel extends JPanel {
 
 	private int selectedRow = 0;
 	private int selectedCol = 0;
+	private BlockPanel selected = null;
 	private static Block[][] currentGame;
 	static Stack moves;
 	boolean editingNotes;
@@ -94,7 +96,7 @@ public class SudokuPanel extends JPanel {
 		this.setFocusable(true);
 		this.setSize(400, 400);
 		this.addKeyListener(new KL());
-		this.addMouseListener(new ML());
+//		this.addMouseListener(new ML());
 		this.setupUI();
 	}
 
@@ -128,9 +130,10 @@ public class SudokuPanel extends JPanel {
 		this.setLayout(new GridLayout(9, 9));
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
-				BlockPanel panel = new BlockPanel();
+				BlockPanel panel = new BlockPanel(i, j);
 				this.gamePanels[i][j] = panel;
-				panel.displayNumberBlock.setBackground(colors[(i+j)%3]);
+				panel.addMouseListener(new ML());
+				panel.displayNumberBlock.setBackground(Color.white);
 				this.add(panel);
 			}
 		}
@@ -589,6 +592,16 @@ public class SudokuPanel extends JPanel {
 			//TODO: IMPLEMENT MORE DETAILED MOUSE RELEASED METHOD, OR IMPLEMENT MOUSEPRESSED OR MOUSE CLICKED
 			int x = e.getX();
 			int y = e.getY();
+			Component c = e.getComponent();
+			if (c instanceof BlockPanel ) {
+				if (selected != null) {
+					selected.deselectPanel();
+				}
+				
+				BlockPanel panel = (BlockPanel) c;
+				selected = panel;
+				panel.panelWasClicked();
+			}
 			//is called when one of the mouse buttons is released
 			if(titleScreenShown){
 				titleScreenShown = false;

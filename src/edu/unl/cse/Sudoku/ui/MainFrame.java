@@ -15,7 +15,6 @@ public class MainFrame extends JFrame {
 		SudokuPanel frame = new SudokuPanel();
 		
 		this.getContentPane().add(frame);
-		SpringLayout.Constraints consts = layout.getConstraints(frame);
 		layout.putConstraint(SpringLayout.NORTH, frame, 0, SpringLayout.NORTH, this.getContentPane());
 		layout.putConstraint(SpringLayout.WEST, frame, 0, SpringLayout.WEST, this.getContentPane());
 		layout.putConstraint(SpringLayout.SOUTH, frame, 0, SpringLayout.SOUTH, this.getContentPane());
@@ -26,7 +25,7 @@ public class MainFrame extends JFrame {
 		layout.putConstraint(SpringLayout.EAST, frame, 0, SpringLayout.WEST, buttonPanel);
 		layout.putConstraint(SpringLayout.SOUTH, buttonPanel, 0, SpringLayout.SOUTH, this.getContentPane());
 		SpringLayout.Constraints buttonConstraints = layout.getConstraints(buttonPanel);
-		buttonConstraints.setWidth(Spring.constant(120));//(Spring.scale(Spring.width(frame), 0.2f));
+		buttonConstraints.setWidth(Spring.constant(120));
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -49,6 +48,6 @@ public class MainFrame extends JFrame {
 		//create the window for the game
 		MainFrame main = new MainFrame();
 		main.setVisible(true);
-		main.setSize(1200, 1000);
+		main.setSize(900, 780);
 	}
 }
