@@ -37,7 +37,6 @@ public class SudokuPanel extends JPanel {
 
 	//PHASE ONE REQUREMENTS
 	//TODO: GAME STARTS WITH PLAYER SELECTING THEIR DIFFICULTY
-	//TODO: CLICK ON A TILE TO SELECT THAT TILE
 	//TODO: ONCE EVERY TILE IS FILLED, CHECK IF THE PUZZLE IS SOLVED
 	//TODO: PLAYER CAN CLICK AN UNDO BUTTON TO ROLL BACK THE LAST CHANGE MADE
 	//TODO: ADD A NEW GAME BUTTON TO ALLOW PLAYER TO DISCARD THE CURRENT GAME AND GENERATE A NEW ONE
@@ -89,15 +88,32 @@ public class SudokuPanel extends JPanel {
 	}
 
 	/**
-	 * SudokuPanel constructor Used to define properties of the game window
+	 * SudokuPanel constructor used to define properties of the game window
+	 * Generates a valid game, and displays it on the screen
 	 */
 	public SudokuPanel() {
 		this.setVisible(true);
 		this.setFocusable(true);
 		this.setSize(400, 400);
 		this.addKeyListener(new KL());
-//		this.addMouseListener(new ML());
-		this.setupUI();
+		
+		generateGame(1);
+		
+		this.setBackground(Color.gray);
+		this.setLayout(new GridLayout(9, 9));
+		for(int i = 0; i < 9; i++){
+			for(int j = 0; j < 9; j++){
+				BlockPanel panel = new BlockPanel(i, j);
+				panel.block = currentGame[i][j];
+				panel.checkLabel();
+				this.gamePanels[i][j] = panel;
+				panel.addMouseListener(new ML());
+				panel.displayNumberBlock.setBackground(Color.white);
+				this.add(panel);
+			}
+		}
+		
+		
 	}
 
 	/**
@@ -119,26 +135,6 @@ public class SudokuPanel extends JPanel {
 	 */
 	public void showWinScreen(){
 		this.setBackground(Color.green);
-	}
-	
-	/**
-	 * Method to set up the visual arrangement of the screen
-	 */
-	public void setupUI() {
-		this.setBackground(Color.gray);
-		Color[] colors = {Color.red, Color.blue, Color.green};
-		this.setLayout(new GridLayout(9, 9));
-		for(int i = 0; i < 9; i++){
-			for(int j = 0; j < 9; j++){
-				BlockPanel panel = new BlockPanel(i, j);
-				this.gamePanels[i][j] = panel;
-				panel.addMouseListener(new ML());
-				panel.displayNumberBlock.setBackground(Color.white);
-				this.add(panel);
-			}
-		}
-		
-		
 	}
 
 	/**
@@ -549,22 +545,27 @@ public class SudokuPanel extends JPanel {
 				return;
 			}			
 			
-			if (selected != null) {
-				selected.label.setText(String.format("%c", e.getKeyChar()));
-			}
-			//if the block is non null but is editable, proceed
-//			if (currentGame[selectedRow][selectedCol] != null && (currentGame[selectedRow][selectedCol].isEditable())){
-//				//if we are editing notes, then add the key pressed as a note to the selected Block
-//				if(editingNotes){
-//					currentGame[selectedRow][selectedCol].addNote(val);
-//				//otherwise change the value of the block
-//				}else{
-//					currentGame[selectedRow][selectedCol].setValue(val);
-//				}
+//			if (selected != null) {
+//				selected.label.setText(String.format("%c", e.getKeyChar()));
 //			}
-//			printBlockMatrix(currentGame, 9);
-//			checkComplete();
-//			System.out.println("KeyReleased: "+e);
+//			if the block is non null
+			if (selected != null){
+				if(selected.block.isEditable()){
+					//if we are editing notes, then add the key pressed as a note to the selected Block
+					if(editingNotes){
+						selected.block.addNote(val);
+					//otherwise change the value of the block
+					}else{
+						selected.block.setValue(val);
+						selected.checkLabel();
+					}
+				}
+				
+				
+			}
+			printBlockMatrix(currentGame, 9);
+			checkComplete();
+			System.out.println("KeyReleased: "+e);
 		}
 	}
 //------------------------END KEY LISTENER CLASS--------------------
