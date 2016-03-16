@@ -13,7 +13,7 @@ public class BlockPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	Block block;
 	JPanel displayNumberBlock = new JPanel();
-	JLabel label = new JLabel();
+	JLabel label = new JLabel("", SwingConstants.CENTER);
 	int row;
 	int column;
 	
@@ -32,7 +32,6 @@ public class BlockPanel extends JPanel {
 		this.displayNumberBlock.setLayout(new BorderLayout());
 		this.displayNumberBlock.add(this.label, BorderLayout.CENTER);
 		this.label.setFont(new Font("Serif", Font.PLAIN, 50));
-		this.label.setText(String.format("%d, %d", this.row, this.column));
 	}
 	
 	public void panelWasClicked() {

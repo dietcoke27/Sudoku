@@ -513,7 +513,7 @@ public class SudokuPanel extends JPanel {
 				return;
 			}
 			//parse which key was pressed
-			int val =0;
+			int val = -1;
 			switch(e.getKeyChar()){
 			case '1':
 				val=1;
@@ -542,24 +542,28 @@ public class SudokuPanel extends JPanel {
 			case '9':
 				val=9;
 				break;
-			case '':
+			case '\u0008':
 				//TODO: HANDLE THE BACKSPACE KEY BEING PRESSED
 				break;
 			default:
 				return;
 			}			
-			//if the block is non null but is editable, proceed
-			if (currentGame[selectedRow][selectedCol] != null && (currentGame[selectedRow][selectedCol].isEditable())){
-				//if we are editing notes, then add the key pressed as a note to the selected Block
-				if(editingNotes){
-					currentGame[selectedRow][selectedCol].addNote(val);
-				//otherwise change the value of the block
-				}else{
-					currentGame[selectedRow][selectedCol].setValue(val);
-				}
+			
+			if (selected != null) {
+				selected.label.setText(String.format("%c", e.getKeyChar()));
 			}
-			printBlockMatrix(currentGame, 9);
-			checkComplete();
+			//if the block is non null but is editable, proceed
+//			if (currentGame[selectedRow][selectedCol] != null && (currentGame[selectedRow][selectedCol].isEditable())){
+//				//if we are editing notes, then add the key pressed as a note to the selected Block
+//				if(editingNotes){
+//					currentGame[selectedRow][selectedCol].addNote(val);
+//				//otherwise change the value of the block
+//				}else{
+//					currentGame[selectedRow][selectedCol].setValue(val);
+//				}
+//			}
+//			printBlockMatrix(currentGame, 9);
+//			checkComplete();
 //			System.out.println("KeyReleased: "+e);
 		}
 	}
