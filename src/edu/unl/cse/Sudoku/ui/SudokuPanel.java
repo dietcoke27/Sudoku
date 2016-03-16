@@ -22,7 +22,7 @@ public class SudokuPanel extends JPanel {
 	private static boolean titleScreenShown = true;
 	private static boolean gameScreenShown = false;
 	private static boolean winScreenShown = false;
-	private static int difficulty;
+	public static int difficulty;
 	private long gameTimer;
 	private boolean gameWon;
 	BlockPanel[][] gamePanels = new BlockPanel[9][9];
@@ -34,6 +34,7 @@ public class SudokuPanel extends JPanel {
 	private static Block[][] currentGame;
 	static Stack moves = new Stack();;
 	boolean editingNotes;
+	public static SudokuPanel mostRecentPanel;
 
 	// private JPanel rootPanel;
 
@@ -57,12 +58,13 @@ public class SudokuPanel extends JPanel {
 	 * Generates a valid game, and displays it on the screen
 	 */
 	public SudokuPanel() {
+		SudokuPanel.mostRecentPanel = this;
 		this.setVisible(true);
 		this.setFocusable(true);
 		this.setSize(400, 400);
 		this.addKeyListener(new KL());
 		
-		generateGame(1);
+		generateGame(SudokuPanel.difficulty);
 		
 		this.setBackground(Color.gray);
 		this.setLayout(new GridLayout(9, 9));
@@ -442,14 +444,14 @@ public class SudokuPanel extends JPanel {
 		
 	}
 	
-	public static void checkComplete(){
+	public static boolean checkComplete(){
 		for(int i=0;i<9; i++)
 		{
 			for(int j = 0;j<9;j++)
 			{
-				if(currentGame[i][j].getValue() ==0)
+				if(currentGame[i][j].getValue() == 0)
 				{
-					return;
+					return false;
 				}
 			}
 		}
@@ -457,7 +459,10 @@ public class SudokuPanel extends JPanel {
 		{
 		gameScreenShown = false;
 		winScreenShown = true;
+			return true;
 		}
+		
+		return false;
 	}
 
 	
@@ -564,8 +569,7 @@ public class SudokuPanel extends JPanel {
 		
 		public void mouseReleased(MouseEvent e){
 			//TODO: IMPLEMENT MORE DETAILED MOUSE RELEASED METHOD, OR IMPLEMENT MOUSEPRESSED OR MOUSE CLICKED
-			int x = e.getX();
-			int y = e.getY();
+			SudokuPanel.mostRecentPanel.requestFocus();
 			Component c = e.getComponent();
 			if (c instanceof BlockPanel ) {
 				if (selected != null) {
