@@ -13,6 +13,8 @@ import java.util.Random;
 import javax.swing.*;
 
 import edu.unl.cse.Sudoku.model.Block;
+import edu.unl.cse.Sudoku.model.Change;
+import edu.unl.cse.Sudoku.model.Node;
 import edu.unl.cse.Sudoku.model.Stack;
 
 public class SudokuPanel extends JPanel {
@@ -30,7 +32,7 @@ public class SudokuPanel extends JPanel {
 	private int selectedCol = 0;
 	private BlockPanel selected = null;
 	private static Block[][] currentGame;
-	static Stack moves;
+	static Stack moves = new Stack();;
 	boolean editingNotes;
 
 	// private JPanel rootPanel;
@@ -49,43 +51,6 @@ public class SudokuPanel extends JPanel {
 	//TODO: ADD ABILITY TO SAVE THE GAME
 	//TODO: ADD ABILITY TO LOAD A SAVED GAME
 	//TODO: ADD A TIMER TO SEE HOW LONG EACH PUZZLE TAKES
-	
-	
-	/**
-	 * Main execution body
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		// create the window for the game
-		SudokuPanel frame = new SudokuPanel();
-		//create loop for game play
-		while (true) {
-			// display start screen
-			while (titleScreenShown) {
-				frame.showTitleScreen();
-//				System.out.println("title Screen");
-//				for(int i =0; i< delay; i++);//add delay for printing
-			}
-			// select difficulty
-			difficulty = 3;
-
-			// generate game based on difficulty
-			generateGame(difficulty);
-			moves = new Stack();
-			// display the game screen
-			while (gameScreenShown) {
-				frame.showGameScreen();
-//				System.out.println("game Screen");
-//				for(int i =0; i< delay; i++);//add delay for printing
-			}
-			while (winScreenShown){
-				frame.showWinScreen();
-//				System.out.println("win Screen");
-//				for(int i =0; i< delay; i++);//add delay for printing
-			}
-		}
-	}
 
 	/**
 	 * SudokuPanel constructor used to define properties of the game window
@@ -110,6 +75,7 @@ public class SudokuPanel extends JPanel {
 				panel.addMouseListener(new ML());
 				panel.displayNumberBlock.setBackground(Color.white);
 				this.add(panel);
+				panel.updateEditable();
 			}
 		}
 		
@@ -209,7 +175,7 @@ public class SudokuPanel extends JPanel {
 		if (checkRowsValid() == false ||checkColsValid() == false ||checkBoxes() == false) {
 			return false;
 		}
-		System.out.println("valid");
+//		System.out.println("valid");
 		return true;
 	}
 	
@@ -540,6 +506,7 @@ public class SudokuPanel extends JPanel {
 				break;
 			case '\u0008':
 				//TODO: HANDLE THE BACKSPACE KEY BEING PRESSED
+				val = 0;
 				break;
 			default:
 				return;
@@ -556,6 +523,8 @@ public class SudokuPanel extends JPanel {
 						selected.block.addNote(val);
 					//otherwise change the value of the block
 					}else{
+						
+						SudokuPanel.moves.push(new Node(null, new Change(selected.block.getValue(), selected.row, selected.column)));
 						selected.block.setValue(val);
 						selected.checkLabel();
 					}

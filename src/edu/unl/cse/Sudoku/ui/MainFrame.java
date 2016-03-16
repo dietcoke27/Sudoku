@@ -1,12 +1,20 @@
 package edu.unl.cse.Sudoku.ui;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-public class MainFrame extends JFrame {
+import edu.unl.cse.Sudoku.model.Change;
+
+public class MainFrame extends JFrame implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
+	private SudokuPanel sudokuPanel;
+	private JButton newGameButton;
+	private JButton undoButton;
+	private JButton checkValid;
 	
 	/**
 	 * Constructor for the MainFrame class.
@@ -17,6 +25,7 @@ public class MainFrame extends JFrame {
 		this.getContentPane().setLayout(layout);
 		//create and add the game frame to the main window
 		SudokuPanel frame = new SudokuPanel();
+		this.sudokuPanel = frame;
 		this.getContentPane().add(frame);
 		//set requirements for the new layout.
 		layout.putConstraint(SpringLayout.NORTH, frame, 0, SpringLayout.NORTH, this.getContentPane());			// 0 px between top of frame and content pane
@@ -41,12 +50,28 @@ public class MainFrame extends JFrame {
 	public JPanel createButtonPanel() {
 		//make a new panel to house elements
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		panel.setLayout(new GridLayout(3,1));
 		//add a new label element
-		JLabel label = new JLabel();
-		label.setText("Buttons");
-		panel.add(label);
+		this.newGameButton = new JButton("New Game");
+		this.newGameButton.addActionListener(this);
+		JPanel buttonBlock = new JPanel();
+		buttonBlock.add(this.newGameButton);
+		panel.add(buttonBlock);
+		this.newGameButton.setFocusable(false);
 		
+		this.undoButton = new JButton("Undo");
+		this.undoButton.addActionListener(this);
+		buttonBlock = new JPanel();
+		buttonBlock.add(this.undoButton);
+		panel.add(buttonBlock);
+		this.undoButton.setFocusable(false);
+		
+		this.checkValid = new JButton("Check");
+		this.checkValid.addActionListener(this);
+		buttonBlock = new JPanel();
+		buttonBlock.add(this.checkValid);
+		panel.add(buttonBlock);
+		this.checkValid.setFocusable(false);
 		return panel;
 	}
 	
@@ -61,5 +86,27 @@ public class MainFrame extends JFrame {
 		main.setSize(900, 780);
 		main.setResizable(false);
 		main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getSource());
+		if (this.newGameButton == e.getSource()) {
+			System.out.println("New Game");
+		} else if (this.undoButton == e.getSource()) {
+			System.out.println("Undo");
+			Change c = SudokuPanel.moves.pop();
+			if (c != null) {
+				BlockPanel p = this.sudokuPanel.gamePanels[c.getRow()][c.getCol()];
+				p.block.setValue(c.getPrevVal());
+				p.checkLabel();
+			}
+		} else if (this.checkValid == e.getSource()) {
+			if (SudokuPanel.checkGameValid()) {
+				System.out.println("Valid");
+			}
+			System.out.println("Check");
+		}
+		
 	}
 }

@@ -50,15 +50,21 @@ public class BlockPanel extends JPanel {
 		this.displayNumberBlock.add(this.label, BorderLayout.CENTER);
 	}
 	
+	public void updateEditable() {
+		if (!this.block.isEditable()) {
+			this.displayNumberBlock.setBackground(Color.lightGray);
+		}
+	}
+	
 	/**
 	 * Method is called when the panel is first selected.
 	 * Changes the background color of the panel to blue
 	 */
 	public void panelWasClicked() {
 		if(this.block.isEditable()){
-			this.setBackground(Color.blue);
+			this.displayNumberBlock.setBackground(Color.cyan);
 		}else{
-			this.setBackground(Color.cyan);
+			this.displayNumberBlock.setBackground(Color.gray);
 		}
 	}
 	
@@ -67,7 +73,8 @@ public class BlockPanel extends JPanel {
 	 * Changes the background color of the panel to black
 	 */
 	public void deselectPanel() {
-		this.setBackground(Color.black);
+		this.displayNumberBlock.setBackground(Color.white);
+		this.updateEditable();
 	}
 	
 	public void checkLabel(){
