@@ -65,7 +65,7 @@ public class SudokuFrame extends JFrame {
 
 			// generate game based on difficulty
 			generateGame(difficulty);
-			
+			moves = new Stack;
 			// display the game screen
 			while (gameScreenShown) {
 				frame.showGameScreen();

@@ -19,12 +19,18 @@ public class Stack {
 	
 	/**
 	 * Remove the last change from the stack and return its information.
-	 * @return the last change record
+	 * @return the last change record returns null if stack is null
 	 */
 	public Change pop(){
+		if( top == null)
+		{
+			return null;
+		}
+		else{
 		Node retNode = top;
 		top = top.getNodeBelow();
 		return retNode.getChange();
+		}
 	}
 	
 }
