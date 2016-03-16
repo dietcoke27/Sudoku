@@ -12,7 +12,7 @@ public class Stack {
 	 * Push the parameter node to the top of the stack
 	 * @param n
 	 */
-	void push(Node n){
+	public void push(Node n){
 		n.setNodeBelow(top);
 		top = n;
 	}
