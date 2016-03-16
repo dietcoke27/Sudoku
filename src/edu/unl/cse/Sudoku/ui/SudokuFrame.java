@@ -38,28 +38,27 @@ public class SudokuFrame extends JFrame {
 		//create loop for game play
 		while (true) {
 			// display start screen
-			int delay = 1000000000;
 			while (titleScreenShown) {
-//				System.out.println("title Screen");
 				frame.showTitleScreen();
-				for(int i =0; i< delay; i++);//add delay for printing
+//				System.out.println("title Screen");
+//				for(int i =0; i< delay; i++);//add delay for printing
 			}
 			// select difficulty
 			difficulty = 3;
 
 			// generate game based on difficulty
 			generateGame(difficulty);
-
+			
 			// display the game screen
 			while (gameScreenShown) {
-//				System.out.println("game Screen");
 				frame.showGameScreen();
-				for(int i =0; i< delay; i++);//add delay for printing
+//				System.out.println("game Screen");
+//				for(int i =0; i< delay; i++);//add delay for printing
 			}
 			while (winScreenShown){
-//				System.out.println("win Screen");
 				frame.showWinScreen();
-				for(int i =0; i< delay; i++);//add delay for printing
+//				System.out.println("win Screen");
+//				for(int i =0; i< delay; i++);//add delay for printing
 			}
 		}
 	}
@@ -68,7 +67,6 @@ public class SudokuFrame extends JFrame {
 	 * SudokuFrame constructor Used to define properties of the game window
 	 */
 	public SudokuFrame() {
-		titleScreenShown = true;
 		this.setVisible(true);
 		this.setFocusable(true);
 		this.setSize(400, 400);
@@ -114,6 +112,10 @@ public class SudokuFrame extends JFrame {
 //			}
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.gray);
+		if(this.getContentPane() == null){
+			System.out.println("null");
+		}
+		
 		
 	}
 
@@ -171,7 +173,7 @@ public class SudokuFrame extends JFrame {
 			//make sure the game is still valid before proceeding
 		}while(!checkGameValid());
 		printBlockMatrix(currentGame, 9);
-		deleteBlocksForPuzzle(difficulty);
+		createEmptyBlocksForPuzzle(difficulty);
 		changeEditabilityOfGame();
 		printBlockMatrix(currentGame, 9);
 	}
@@ -185,7 +187,6 @@ public class SudokuFrame extends JFrame {
 		// check if the row and column are valid
 		//TODO: OPTIMIZE CHECK GAME TO BE FASTER
 		//TODO: IMPLEMENT A SINGLE METHOD TO CHECK A SINGLE ROW AND COLUMN FASTER
-		//TODO: CHANGE FROM HANDLING NULL BLOCKS TO HANDLING ZERO VALUED BLOCKS
 		
 		if (checkRowsValid() == false ||checkColsValid() == false ||checkBoxes() == false) {
 			return false;
@@ -412,7 +413,7 @@ public class SudokuFrame extends JFrame {
 	 * Difficulty is expected to be 1-3
 	 * @param difficulty
 	 */
-	private static void deleteBlocksForPuzzle(int dif) {
+	private static void createEmptyBlocksForPuzzle(int dif) {
 		int numToRemovePerRow;
 		Random rand = new Random();
 		switch(dif){
@@ -436,7 +437,7 @@ public class SudokuFrame extends JFrame {
 				do{
 					col = rand.nextInt(9);
 					
-				}while(currentGame[r][col] == null);
+				}while(currentGame[r][col].getValue() == 0);
 				currentGame[r][col].setValue(0);
 			}
 			
@@ -449,7 +450,7 @@ public class SudokuFrame extends JFrame {
 	public static void changeEditabilityOfGame(){
 		for(int r = 0; r<9; r++){
 			for(int c = 0; c<9; c++){
-				if(currentGame[r][c] != null){
+				if(currentGame[r][c].getValue() != 0){
 					currentGame[r][c].setEditable(false);
 				}
 			}
@@ -503,8 +504,7 @@ public class SudokuFrame extends JFrame {
 				//TODO: HANDLE THE BACKSPACE KEY BEING PRESSED
 				break;
 			default:
-				System.out.println(e.getKeyChar());
-				break;
+				return;
 			}			
 			//if the block is non null but is editable, proceed
 			if (currentGame[selectedRow][selectedCol] != null && (currentGame[selectedRow][selectedCol].isEditable())){
@@ -516,6 +516,7 @@ public class SudokuFrame extends JFrame {
 					currentGame[selectedRow][selectedCol].setValue(val);
 				}
 			}
+			printBlockMatrix(currentGame, 9);
 //			System.out.println("KeyReleased: "+e);
 		}
 	}
@@ -546,7 +547,8 @@ public class SudokuFrame extends JFrame {
 		
 		public void mouseReleased(MouseEvent e){
 			//TODO: IMPLEMENT MORE DETAILED MOUSE RELEASED METHOD, OR IMPLEMENT MOUSEPRESSED OR MOUSE CLICKED
-			System.out.println("release");
+			int x = e.getX();
+			int y = e.getY();
 			//is called when one of the mouse buttons is released
 			if(titleScreenShown){
 				titleScreenShown = false;
