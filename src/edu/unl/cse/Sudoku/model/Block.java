@@ -16,7 +16,7 @@ public class Block {
 	 * Getter for the value of the Block
 	 * @return value
 	 */
-	int getValue(){
+	public int getValue(){
 		return this.value;
 	}
 	
@@ -24,8 +24,24 @@ public class Block {
 	 * Setter for the value of the Block
 	 * @param newVal
 	 */
-	void setValue(int newVal){
+	public void setValue(int newVal){
 		this.value = newVal;
+	}
+	
+	/**
+	 * Returns if the current block is editable
+	 * @return
+	 */
+	public boolean isEditable() {
+		return editable;
+	}
+
+	/**
+	 * Setter for the edit-ability of the block
+	 * @param editable
+	 */
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 	
 	/**
@@ -41,7 +57,7 @@ public class Block {
 	 * for this Block
 	 * @param note
 	 */
-	void addNote(int note){
+	public void addNote(int note){
 		//TODO:
 		
 	}
