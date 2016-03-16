@@ -23,7 +23,7 @@ public class SudokuPanel extends JPanel {
 	private boolean gameWon;
 	private Stack moves;
 	private boolean editingNotes;
-	private BlockPanel[][] gamePanels = new BlockPanel[9][9];
+	BlockPanel[][] gamePanels = new BlockPanel[9][9];
 //	private JPanel rootPanel;
 	
 	/**

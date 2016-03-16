@@ -22,6 +22,6 @@ public class BlockPanel extends JPanel {
 		l.putConstraint(SpringLayout.EAST, this.displayNumberBlock, 5, SpringLayout.EAST, this);
 		l.putConstraint(SpringLayout.SOUTH, this.displayNumberBlock, 5, SpringLayout.SOUTH, this);
 		l.putConstraint(SpringLayout.WEST, this.displayNumberBlock, 5, SpringLayout.WEST, this);
-		SpringLayout.Constraints parentCons = l.getConstraints(this);
+		l.putConstraint(SpringLayout.WIDTH, this.displayNumberBlock, 0, SpringLayout.HEIGHT, this.displayNumberBlock);
 	}
 }
