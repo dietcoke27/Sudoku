@@ -8,6 +8,8 @@ import javax.swing.*;
 
 import edu.unl.cse.Sudoku.model.*;
 
+//ADD SOME TRIVIAL COMMENT CODE TO PROVE COMMITS WORK
+
 public class BlockPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
