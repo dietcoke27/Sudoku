@@ -41,6 +41,7 @@ public class MainFrame extends JFrame implements ActionListener {
 	public void showTitleScreen() {
 		this.isTitleScreen = true;
 		this.getContentPane().removeAll();
+		SuperBlockPanel.superPanels = new SuperBlockPanel[3][3];
 		
 		if (this.titlePanel == null ) {
 			JPanel panel = new JPanel(new GridLayout(2, 1));
@@ -172,7 +173,6 @@ public class MainFrame extends JFrame implements ActionListener {
 			}
 		} else {
 			if (this.newGameButton == e.getSource()) {
-				System.out.println("New Game");
 				this.showTitleScreen();
 			} else if (this.undoButton == e.getSource()) {
 				Change c = SudokuPanel.moves.pop();

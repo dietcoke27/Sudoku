@@ -175,7 +175,6 @@ public class SudokuPanel extends JPanel {
 				
 				BlockPanel panel = (BlockPanel) c;
 				selected = panel;
-				System.out.println(String.format("%d, %d", selected.row, selected.column));
 				panel.panelWasClicked();
 			}
 			//is called when one of the mouse buttons is released
