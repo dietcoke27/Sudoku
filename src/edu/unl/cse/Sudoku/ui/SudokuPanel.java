@@ -20,9 +20,6 @@ import edu.unl.cse.Sudoku.model.Stack;
 
 public class SudokuPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	private static boolean titleScreenShown = true;
-	private static boolean gameScreenShown = false;
-	private static boolean winScreenShown = false;
 	public static int difficulty;
 	private long gameTimer;
 	private boolean gameWon;
@@ -35,8 +32,6 @@ public class SudokuPanel extends JPanel {
 	static Stack moves = new Stack();;
 	boolean editingNotes;
 	public static SudokuPanel mostRecentPanel;
-
-	// private JPanel rootPanel;
 
 	//PHASE ONE REQUREMENTS
 	//TODO: GAME STARTS WITH PLAYER SELECTING THEIR DIFFICULTY
@@ -67,18 +62,23 @@ public class SudokuPanel extends JPanel {
 		PuzzleGenerator.generateGame(SudokuPanel.difficulty);
 		
 		this.setBackground(Color.gray);
-		this.setLayout(new GridLayout(9, 9));
+		this.setLayout(new GridLayout(3,3));
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
 				BlockPanel panel = new BlockPanel(i, j);
 				panel.block = PuzzleGenerator.currentGame[i][j];
 				panel.checkLabel();
 				this.gamePanels[i][j] = panel;
+				SuperBlockPanel.addBlockPanel(panel, i, j);
 				panel.addMouseListener(new ML());
 				panel.displayNumberBlock.setBackground(Color.white);
-				this.add(panel);
+//				this.add(panel);
 				panel.updateEditable();
 			}
+		}
+		
+		for (SuperBlockPanel p : SuperBlockPanel.flattenPanelList()) {
+			this.add(p);
 		}
 	}
 	
@@ -168,15 +168,18 @@ public class SudokuPanel extends JPanel {
 		
 		public void mouseReleased(MouseEvent e){
 			//TODO: IMPLEMENT MORE DETAILED MOUSE RELEASED METHOD, OR IMPLEMENT MOUSEPRESSED OR MOUSE CLICKED
+			
 			SudokuPanel.mostRecentPanel.requestFocus();
 			Component c = e.getComponent();
 			if (c instanceof BlockPanel ) {
 				if (selected != null) {
 					selected.deselectPanel();
+					
 				}
 				
 				BlockPanel panel = (BlockPanel) c;
 				selected = panel;
+				System.out.println(String.format("%d, %d", selected.row, selected.column));
 				panel.panelWasClicked();
 			}
 			//is called when one of the mouse buttons is released

@@ -178,7 +178,6 @@ public class MainFrame extends JFrame implements ActionListener {
 				System.out.println("New Game");
 				this.showTitleScreen();
 			} else if (this.undoButton == e.getSource()) {
-				System.out.println("Undo");
 				Change c = SudokuPanel.moves.pop();
 				if (c != null) {
 					BlockPanel p = this.sudokuPanel.gamePanels[c.getRow()][c.getCol()];
@@ -188,7 +187,6 @@ public class MainFrame extends JFrame implements ActionListener {
 			} else if (this.checkValid == e.getSource()) {
 				if (PuzzleGenerator.checkComplete()) {
 					JOptionPane.showMessageDialog(this, "You won!", "Check Game", JOptionPane.PLAIN_MESSAGE, null);
-					//TODO: Something not useless
 				} else {
 					JOptionPane.showMessageDialog(this, "Game is not valid.", "Check Game", JOptionPane.PLAIN_MESSAGE, null);
 				}

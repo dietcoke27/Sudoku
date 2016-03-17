@@ -40,7 +40,7 @@ public class BlockPanel extends JPanel {
 		l.putConstraint(SpringLayout.NORTH, this.displayNumberBlock,  3, SpringLayout.NORTH,  this);						// 3 px between the top    of the number box and the top    of the BlockPanel
 		l.putConstraint(SpringLayout.EAST,  this.displayNumberBlock, -3, SpringLayout.EAST,   this);						// 3 px between the right  of the number box and the right  of the BlockPanel 
 		l.putConstraint(SpringLayout.SOUTH, this.displayNumberBlock, -3, SpringLayout.SOUTH,  this);						// 3 px between the bottom of the number box and the bottom of the BlockPanel
-		l.putConstraint(SpringLayout.WEST,  this.displayNumberBlock,  5, SpringLayout.WEST,   this);						// 3 px between the left   of the number box and the left   of the BlockPanel
+		l.putConstraint(SpringLayout.WEST,  this.displayNumberBlock,  4, SpringLayout.WEST,   this);						// 3 px between the left   of the number box and the left   of the BlockPanel
 		l.putConstraint(SpringLayout.WIDTH, this.displayNumberBlock,  0, SpringLayout.HEIGHT, this.displayNumberBlock);		// 0 px between the height of the number box and the width  of the number box
 		//set a layout for the interior number panel
 		this.displayNumberBlock.setLayout(new BorderLayout());
