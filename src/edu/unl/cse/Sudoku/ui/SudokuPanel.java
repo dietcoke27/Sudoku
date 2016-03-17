@@ -72,7 +72,6 @@ public class SudokuPanel extends JPanel {
 				SuperBlockPanel.addBlockPanel(panel, i, j);
 				panel.addMouseListener(new ML());
 				panel.displayNumberBlock.setBackground(Color.white);
-//				this.add(panel);
 				panel.updateEditable();
 			}
 		}

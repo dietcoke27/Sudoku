@@ -126,22 +126,19 @@ public class MainFrame extends JFrame implements ActionListener {
 		//add a new label element
 		this.newGameButton = new JButton("New Game");
 		this.newGameButton.addActionListener(this);
-		JPanel buttonBlock = new JPanel();
-		buttonBlock.add(this.newGameButton);
+		JPanel buttonBlock = Utilities.createPanelWithComponentCentered(this.newGameButton, 5, 1);
 		panel.add(buttonBlock);
 //		this.newGameButton.setFocusable(false);
 		
 		this.undoButton = new JButton("Undo");
 		this.undoButton.addActionListener(this);
-		buttonBlock = new JPanel();
-		buttonBlock.add(this.undoButton);
+		buttonBlock = Utilities.createPanelWithComponentCentered(this.undoButton, 5, 1);
 		panel.add(buttonBlock);
 //		this.undoButton.setFocusable(false);
 		
 		this.checkValid = new JButton("Check");
 		this.checkValid.addActionListener(this);
-		buttonBlock = new JPanel();
-		buttonBlock.add(this.checkValid);
+		buttonBlock = Utilities.createPanelWithComponentCentered(this.checkValid, 5, 1);
 		panel.add(buttonBlock);
 //		this.checkValid.setFocusable(false);
 		return panel;
