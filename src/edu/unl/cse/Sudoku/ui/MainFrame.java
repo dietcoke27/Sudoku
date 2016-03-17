@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.unl.cse.Sudoku.model.Change;
+import edu.unl.cse.Sudoku.model.Utilities;
 
 public class MainFrame extends JFrame implements ActionListener {
 	
@@ -34,6 +35,8 @@ public class MainFrame extends JFrame implements ActionListener {
 		this.showTitleScreen();
 	}
 	
+	
+	
 	public void showTitleScreen() {
 		this.isTitleScreen = true;
 		this.getContentPane().removeAll();
@@ -46,101 +49,26 @@ public class MainFrame extends JFrame implements ActionListener {
 			panel.add(label);
 
 			JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
-			JPanel vertPanel = new JPanel(new GridLayout(7, 1));
-			JPanel horiPanel = new JPanel(new GridLayout(1, 3));
-			JPanel garbagePanel;
-			
-			for (int i = 0; i < 3; i++) {
-				garbagePanel = new JPanel();
-				vertPanel.add(garbagePanel);
-			}
-			
-			for (int i = 0; i < 1; i++) {
-				garbagePanel = new JPanel();
-				horiPanel.add(garbagePanel);
-			}
 			
 			easyButton = new JButton("Easy");
 			easyButton.addActionListener(this);
-			horiPanel.add(easyButton);
-			
-			for (int i = 0; i < 1; i++) {
-				garbagePanel = new JPanel();
-				horiPanel.add(garbagePanel);
-			}
-			
-			vertPanel.add(horiPanel);
-			
-			for (int i = 0; i < 3; i++) {
-				garbagePanel = new JPanel();
-				vertPanel.add(garbagePanel);
-			}
+			JPanel vertPanel = Utilities.createPanelWithComponentCentered(easyButton, 7, 3);
 			
 			buttonPanel.add(vertPanel);
 			
 			/////
-			
-			vertPanel = new JPanel(new GridLayout(7, 1));
-			horiPanel = new JPanel(new GridLayout(1, 3));
-
-			for (int i = 0; i < 3; i++) {
-				garbagePanel = new JPanel();
-				vertPanel.add(garbagePanel);
-			}
-			
-			for (int i = 0; i < 1; i++) {
-				garbagePanel = new JPanel();
-				horiPanel.add(garbagePanel);
-			}
 			
 			mediumButton = new JButton("Medium");
 			mediumButton.addActionListener(this);
-			horiPanel.add(mediumButton);
-			
-			for (int i = 0; i < 1; i++) {
-				garbagePanel = new JPanel();
-				horiPanel.add(garbagePanel);
-			}
-			
-			vertPanel.add(horiPanel);
-			
-			for (int i = 0; i < 3; i++) {
-				garbagePanel = new JPanel();
-				vertPanel.add(garbagePanel);
-			}
+			vertPanel = Utilities.createPanelWithComponentCentered(mediumButton, 7, 3);
 			
 			buttonPanel.add(vertPanel);
 			
 			/////
 			
-			vertPanel = new JPanel(new GridLayout(7, 1));
-			horiPanel = new JPanel(new GridLayout(1, 3));
-
-			for (int i = 0; i < 3; i++) {
-				garbagePanel = new JPanel();
-				vertPanel.add(garbagePanel);
-			}
-			
-			for (int i = 0; i < 1; i++) {
-				garbagePanel = new JPanel();
-				horiPanel.add(garbagePanel);
-			}
-			
 			hardButton = new JButton("Hard");
 			hardButton.addActionListener(this);
-			horiPanel.add(hardButton);
-			
-			for (int i = 0; i < 1; i++) {
-				garbagePanel = new JPanel();
-				horiPanel.add(garbagePanel);
-			}
-			
-			vertPanel.add(horiPanel);
-			
-			for (int i = 0; i < 3; i++) {
-				garbagePanel = new JPanel();
-				vertPanel.add(garbagePanel);
-			}
+			vertPanel = Utilities.createPanelWithComponentCentered(hardButton, 7, 3);
 			
 			buttonPanel.add(vertPanel);
 
@@ -233,7 +161,6 @@ public class MainFrame extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getSource());
 		if (this.isTitleScreen) {
 			if (this.easyButton == e.getSource()) {
 				SudokuPanel.difficulty = 1;
