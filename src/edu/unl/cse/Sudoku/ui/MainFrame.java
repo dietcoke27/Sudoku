@@ -34,6 +34,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		this.getContentPane().setLayout(layout);
 		//create and add the game frame to the main window
 		this.showTitleScreen();
+		this.getContentPane().setBackground(Color.black);
 	}
 	
 	
