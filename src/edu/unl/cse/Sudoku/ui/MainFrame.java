@@ -46,18 +46,103 @@ public class MainFrame extends JFrame implements ActionListener {
 			panel.add(label);
 
 			JPanel buttonPanel = new JPanel(new GridLayout(1, 3));
-
+			JPanel vertPanel = new JPanel(new GridLayout(7, 1));
+			JPanel horiPanel = new JPanel(new GridLayout(1, 3));
+			JPanel garbagePanel;
+			
+			for (int i = 0; i < 3; i++) {
+				garbagePanel = new JPanel();
+				vertPanel.add(garbagePanel);
+			}
+			
+			for (int i = 0; i < 1; i++) {
+				garbagePanel = new JPanel();
+				horiPanel.add(garbagePanel);
+			}
+			
 			easyButton = new JButton("Easy");
 			easyButton.addActionListener(this);
-			buttonPanel.add(easyButton);
+			horiPanel.add(easyButton);
+			
+			for (int i = 0; i < 1; i++) {
+				garbagePanel = new JPanel();
+				horiPanel.add(garbagePanel);
+			}
+			
+			vertPanel.add(horiPanel);
+			
+			for (int i = 0; i < 3; i++) {
+				garbagePanel = new JPanel();
+				vertPanel.add(garbagePanel);
+			}
+			
+			buttonPanel.add(vertPanel);
+			
+			/////
+			
+			vertPanel = new JPanel(new GridLayout(7, 1));
+			horiPanel = new JPanel(new GridLayout(1, 3));
 
+			for (int i = 0; i < 3; i++) {
+				garbagePanel = new JPanel();
+				vertPanel.add(garbagePanel);
+			}
+			
+			for (int i = 0; i < 1; i++) {
+				garbagePanel = new JPanel();
+				horiPanel.add(garbagePanel);
+			}
+			
 			mediumButton = new JButton("Medium");
 			mediumButton.addActionListener(this);
-			buttonPanel.add(mediumButton);
+			horiPanel.add(mediumButton);
+			
+			for (int i = 0; i < 1; i++) {
+				garbagePanel = new JPanel();
+				horiPanel.add(garbagePanel);
+			}
+			
+			vertPanel.add(horiPanel);
+			
+			for (int i = 0; i < 3; i++) {
+				garbagePanel = new JPanel();
+				vertPanel.add(garbagePanel);
+			}
+			
+			buttonPanel.add(vertPanel);
+			
+			/////
+			
+			vertPanel = new JPanel(new GridLayout(7, 1));
+			horiPanel = new JPanel(new GridLayout(1, 3));
 
+			for (int i = 0; i < 3; i++) {
+				garbagePanel = new JPanel();
+				vertPanel.add(garbagePanel);
+			}
+			
+			for (int i = 0; i < 1; i++) {
+				garbagePanel = new JPanel();
+				horiPanel.add(garbagePanel);
+			}
+			
 			hardButton = new JButton("Hard");
 			hardButton.addActionListener(this);
-			buttonPanel.add(hardButton);
+			horiPanel.add(hardButton);
+			
+			for (int i = 0; i < 1; i++) {
+				garbagePanel = new JPanel();
+				horiPanel.add(garbagePanel);
+			}
+			
+			vertPanel.add(horiPanel);
+			
+			for (int i = 0; i < 3; i++) {
+				garbagePanel = new JPanel();
+				vertPanel.add(garbagePanel);
+			}
+			
+			buttonPanel.add(vertPanel);
 
 			panel.add(buttonPanel);
 			this.titlePanel = panel;

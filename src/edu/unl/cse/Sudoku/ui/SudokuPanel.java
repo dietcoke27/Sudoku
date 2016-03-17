@@ -551,21 +551,6 @@ public class SudokuPanel extends JPanel {
 	 *
 	 */
 	private class ML extends MouseAdapter{
-		public void mouseClicked(MouseEvent e){
-			//called when one of the mouse buttons is clicked
-		}
-		
-		public void mouseEntered(MouseEvent e){
-			//when the mouse is moved from another window to this one
-		}
-		
-		public void mouseExited(MouseEvent e){
-			//when the mouse if moved from this window to another
-		}
-		
-		public void mousePressed(MouseEvent e){
-			//triggered when one of the mouse buttons is pressed down
-		}
 		
 		public void mouseReleased(MouseEvent e){
 			//TODO: IMPLEMENT MORE DETAILED MOUSE RELEASED METHOD, OR IMPLEMENT MOUSEPRESSED OR MOUSE CLICKED
@@ -581,16 +566,6 @@ public class SudokuPanel extends JPanel {
 				panel.panelWasClicked();
 			}
 			//is called when one of the mouse buttons is released
-			if(titleScreenShown){
-				titleScreenShown = false;
-				gameScreenShown = true;
-			}else if(gameScreenShown){
-				gameScreenShown = false;
-				winScreenShown = true;
-			}else if(winScreenShown){
-				winScreenShown = false;
-				titleScreenShown = true;
-			}
 		}
 	}
 	//-------------------END MOUSE LISTENER CLASS---------------------
