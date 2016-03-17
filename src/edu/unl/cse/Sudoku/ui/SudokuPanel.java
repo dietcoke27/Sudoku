@@ -164,10 +164,7 @@ public class SudokuPanel extends JPanel {
 	 *
 	 */
 	private class ML extends MouseAdapter{
-		
-		public void mouseReleased(MouseEvent e){
-			//TODO: IMPLEMENT MORE DETAILED MOUSE RELEASED METHOD, OR IMPLEMENT MOUSEPRESSED OR MOUSE CLICKED
-			
+		public void mousePressed(MouseEvent e) {
 			SudokuPanel.mostRecentPanel.requestFocus();
 			Component c = e.getComponent();
 			if (c instanceof BlockPanel ) {
@@ -183,6 +180,8 @@ public class SudokuPanel extends JPanel {
 			}
 			//is called when one of the mouse buttons is released
 		}
+			
+			
 	}
 	//-------------------END MOUSE LISTENER CLASS---------------------
 }
