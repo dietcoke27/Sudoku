@@ -3,7 +3,6 @@ package edu.unl.cse.Sudoku.model;
 import java.awt.Component;
 import java.awt.GridLayout;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class Utilities {

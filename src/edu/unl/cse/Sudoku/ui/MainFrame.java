@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.unl.cse.Sudoku.model.Change;
+import edu.unl.cse.Sudoku.model.PuzzleGenerator;
 import edu.unl.cse.Sudoku.model.Utilities;
 
 public class MainFrame extends JFrame implements ActionListener {
@@ -185,7 +186,7 @@ public class MainFrame extends JFrame implements ActionListener {
 					p.checkLabel();
 				}
 			} else if (this.checkValid == e.getSource()) {
-				if (SudokuPanel.checkComplete()) {
+				if (PuzzleGenerator.checkComplete()) {
 					JOptionPane.showMessageDialog(this, "You won!", "Check Game", JOptionPane.PLAIN_MESSAGE, null);
 					//TODO: Something not useless
 				} else {
