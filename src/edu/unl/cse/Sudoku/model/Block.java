@@ -25,7 +25,9 @@ public class Block {
 	 * @param newVal
 	 */
 	public void setValue(int newVal){
-		this.value = newVal;
+		if (this.isEditable()) {
+			this.value = newVal;
+		}
 	}
 	
 	/**
