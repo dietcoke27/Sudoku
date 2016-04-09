@@ -13,79 +13,144 @@ import edu.unl.cse.Sudoku.model.*;
 public class BlockPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	Block block;
-	JPanel displayNumberBlock;
-	JLabel label;
-	int row;
-	int column;
-	
+	private Block block;
+	private JPanel displayNumberBlock;
+	private JLabel label;
+	private int row;
+	private int col;
+	private Color dispNormal;
+	private Color dispSelected;
+	private Color backNormal;
+	private Color backError;
+
 	/**
-	 * Constructor for the BlockPanel class.
-	 * BlockPanel is a JPanel that contains another JPanel, as well as a text field.
-	 * BlockPanel also has a Block that is associated with it.
+	 * Constructor for the BlockPanel class. BlockPanel is a JPanel that
+	 * contains another JPanel, as well as a text field. BlockPanel also has a
+	 * Block that is associated with it.
+	 * 
 	 * @param row
 	 * @param column
 	 */
-	public BlockPanel(int row, int column) {
+	public BlockPanel(int row, int col) {
 		this.row = row;
-		this.column = column;
+		this.col = col;
+		this.backNormal = Color.black;
+		this.backError = Color.red;
+
 		this.setBackground(Color.black);
-		
-		//create a panel inside the BlockPanel to display the number
-		this.displayNumberBlock  = new JPanel();
+
+		// create a panel inside the BlockPanel to display the number
+		this.displayNumberBlock = new JPanel();
 		this.add(this.displayNumberBlock);
-		
-		//create and set a new layout for the BlockPanel
+
+		// create and set a new layout for the BlockPanel
 		SpringLayout l = new SpringLayout();
 		this.setLayout(l);
-		//set constraints for the BlockPanel
-		l.putConstraint(SpringLayout.NORTH, this.displayNumberBlock,  3, SpringLayout.NORTH,  this);						// 3 px between the top    of the number box and the top    of the BlockPanel
-		l.putConstraint(SpringLayout.EAST,  this.displayNumberBlock, -3, SpringLayout.EAST,   this);						// 3 px between the right  of the number box and the right  of the BlockPanel 
-		l.putConstraint(SpringLayout.SOUTH, this.displayNumberBlock, -3, SpringLayout.SOUTH,  this);						// 3 px between the bottom of the number box and the bottom of the BlockPanel
-		l.putConstraint(SpringLayout.WEST,  this.displayNumberBlock,  4, SpringLayout.WEST,   this);						// 3 px between the left   of the number box and the left   of the BlockPanel
-		l.putConstraint(SpringLayout.WIDTH, this.displayNumberBlock,  0, SpringLayout.HEIGHT, this.displayNumberBlock);		// 0 px between the height of the number box and the width  of the number box
-		//set a layout for the interior number panel
+		// set constraints for the BlockPanel
+		l.putConstraint(SpringLayout.NORTH, this.displayNumberBlock, 3,
+				SpringLayout.NORTH, this);
+		l.putConstraint(SpringLayout.EAST, this.displayNumberBlock, -3,
+				SpringLayout.EAST, this);
+		l.putConstraint(SpringLayout.SOUTH, this.displayNumberBlock, -3,
+				SpringLayout.SOUTH, this);
+		l.putConstraint(SpringLayout.WEST, this.displayNumberBlock, 4,
+				SpringLayout.WEST, this);
+		l.putConstraint(SpringLayout.WIDTH, this.displayNumberBlock, 0,
+				SpringLayout.HEIGHT, this.displayNumberBlock);
+		// set a layout for the interior number panel
 		this.displayNumberBlock.setLayout(new BorderLayout());
-		//create a new label for the numbers, set the font of the label, add the label to the number box
+		// create a new label for the numbers, set the font of the label, add
+		// the label to the number box
 		this.label = new JLabel("", SwingConstants.CENTER);
 		this.label.setFont(new Font("Serif", Font.PLAIN, 50));
 		this.displayNumberBlock.add(this.label, BorderLayout.CENTER);
 	}
-	
-	public void updateEditable() {
-		if (!this.block.isEditable()) {
-			this.displayNumberBlock.setBackground(Color.lightGray);
-		}
-	}
-	
+
 	/**
-	 * Method is called when the panel is first selected.
-	 * Changes the background color of the panel to blue
+	 * Getter method for the block variable.
 	 */
-	public void panelWasClicked() {
-		if(this.block.isEditable()){
-			this.displayNumberBlock.setBackground(Color.cyan);
-		}else{
-			this.displayNumberBlock.setBackground(Color.gray);
+	public Block getBlock() {
+		return this.block;
+	}
+
+	/**
+	 * Setter method for the block variable.
+	 * 
+	 * @param newBlock
+	 */
+	public void setBlock(Block newBlock) {
+		this.block = newBlock;
+	}
+
+	/**
+	 * @return the row
+	 */
+	public int getRow() {
+		return row;
+	}
+
+	/**
+	 * @param row
+	 *            : The row to set.
+	 */
+	public void setRow(int row) {
+		this.row = row;
+	}
+
+	/**
+	 * @return the col
+	 */
+	public int getCol() {
+		return col;
+	}
+
+	/**
+	 * @param col
+	 *            : The col to set.
+	 */
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	/**
+	 * Updates the label on the block. Updates the background color.
+	 */
+	public void update() {
+		if (this.block.getValue() != 0) {
+			this.label.setText("" + this.block.getValue());
+		} else {
+			this.label.setText("");
 		}
 	}
-	
+
 	/**
-	 * Method is called when another panel is selected.
-	 * Changes the background color of the panel to black
+	 * Called to automatically set the colors of the block
+	 */
+	public void setColors() {
+		if (!this.block.isEditable()) {
+			this.dispNormal = Color.LIGHT_GRAY;
+			this.dispSelected = Color.GRAY;
+			this.displayNumberBlock.setBackground(dispNormal);
+		} else {
+			this.dispNormal = Color.white;
+			this.dispSelected = Color.cyan;
+			this.displayNumberBlock.setBackground(dispNormal);
+		}
+	}
+
+	/**
+	 * Method is called when the panel is first selected. Changes the background
+	 * color of the panel to blue
+	 */
+	public void selectPanel() {
+		this.displayNumberBlock.setBackground(dispSelected);
+	}
+
+	/**
+	 * Method is called when another panel is selected. Changes the background
+	 * color of the panel to black
 	 */
 	public void deselectPanel() {
-		this.displayNumberBlock.setBackground(Color.white);
-		this.updateEditable();
-	}
-	
-	public void checkLabel(){
-		if(this.block != null){
-			if(this.block.getValue() != 0){
-				this.label.setText( "" + this.block.getValue());
-			}else{
-				this.label.setText("");
-			}
-		}
+		this.displayNumberBlock.setBackground(dispNormal);
 	}
 }

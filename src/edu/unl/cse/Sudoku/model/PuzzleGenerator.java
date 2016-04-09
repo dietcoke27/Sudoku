@@ -7,10 +7,10 @@ public class PuzzleGenerator {
 	public static Block[][] currentGame;
 
 	/**
-	 * Method to generate a valid puzzle based on difficulty
+	 * Method to generate a valid puzzle based on difficulty.
 	 * 
 	 * @param difficulty
-	 * @return validIncompletePuzzle
+	 *            : should be in the range of [1-3]
 	 */
 	public static void generateGame(int difficulty) {
 		// manually create a correct base puzzle that is correct and always the
@@ -67,14 +67,12 @@ public class PuzzleGenerator {
 	/**
 	 * Method to check whether the current arrangement is valid or not.
 	 * 
-	 * @return true if there are no errors
+	 * @return Whether or not there are any errors in the puzzle.
 	 */
 	static boolean checkGameValid() {
 		// check if the row and column are valid
-		// TODO: OPTIMIZE CHECK GAME TO BE FASTER
-		// TODO: IMPLEMENT A SINGLE METHOD TO CHECK A SINGLE ROW AND COLUMN
-		// FASTER
-		if (checkRowsValid() == false || checkColsValid() == false || checkBoxes() == false) {
+		if (checkRowsValid() == false || checkColsValid() == false
+				|| checkBoxes() == false) {
 			return false;
 		}
 		return true;
@@ -107,21 +105,20 @@ public class PuzzleGenerator {
 	/**
 	 * Checks the if all of the rows are valid.
 	 * 
-	 * @return if every row in the game is valid
+	 * @return If every row in the game is valid.
 	 */
 	public static boolean checkRowsValid() {
-		// for every row
 		for (int r = 0; r < 9; r++) {
 			if (!checkRowValid(r)) {
 				return false;
 			}
 		}
-		// no invalid rows in the game
 		return true;
 	}
 
 	/**
-	 * Check if a specific row is valid.
+	 * Check if a specific row is valid. Neglects null and empty elements in the
+	 * row.
 	 * 
 	 * @param r
 	 * @return if the row is valid
@@ -149,24 +146,21 @@ public class PuzzleGenerator {
 	}
 
 	/**
-	 * Checks the if all of the columns are valid. Does NOT account for null
-	 * boxes
+	 * Checks the if all of the columns are valid.
 	 * 
-	 * @return if every column in the game is valid
+	 * @return if every column in the game is valid.
 	 */
 	public static boolean checkColsValid() {
-		// for every column
 		for (int c = 0; c < 9; c++) {
 			if (!checkColValid(c)) {
 				return false;
 			}
 		}
-		// no invalid columns in the game
 		return true;
 	}
 
 	/**
-	 * Checks if a specific column is valid
+	 * Checks if a specific column is valid.
 	 * 
 	 * @param c
 	 * @return
@@ -175,14 +169,17 @@ public class PuzzleGenerator {
 		// check every element vs every other element in the column
 		for (int r = 0; r < 9; r++) {
 			for (int r2 = r + 1; r2 < 9; r2++) {
-				// if two elements in a column are equal, return false
-				if (currentGame[r][c].getValue() != 0
-						&& currentGame[r2][c].getValue() != 0) {
-					if (currentGame[r][c].getValue() == currentGame[r2][c]
-							.getValue()) {
-						return false;
+				if (currentGame[r][c] != null && currentGame[r2][c] != null) {
+					// if two elements in a column are equal, return false
+					if (currentGame[r][c].getValue() != 0
+							&& currentGame[r2][c].getValue() != 0) {
+						if (currentGame[r][c].getValue() == currentGame[r2][c]
+								.getValue()) {
+							return false;
+						}
 					}
 				}
+
 			}
 		}
 		return true;
@@ -237,7 +234,8 @@ public class PuzzleGenerator {
 			// check against every other element in the matrix
 			for (int j = i + 1; j < 9; j++) {
 				// if the values of the two elements are the same, return false.
-				if (box[i / 3][i % 3].getValue() == box[j / 3][j % 3].getValue()) {
+				if (box[i / 3][i % 3].getValue() == box[j / 3][j % 3]
+						.getValue()) {
 					return false;
 				}
 			}
@@ -253,10 +251,11 @@ public class PuzzleGenerator {
 	private static void makeSwaps() {
 		Random r = new Random();
 		int rand1, rand2, swaps = r.nextInt(2);
-		//make sure the # of swaps is not even
-		//this ensures that the puzzle is not the same as the base puzzle by removing the change for an even number of swaps to cancel out.
-		if(swaps %2 ==0){
-			swaps +=1;
+		// make sure the # of swaps is not even
+		// this ensures that the puzzle is not the same as the base puzzle by
+		// removing the change for an even number of swaps to cancel out.
+		if (swaps % 2 == 0) {
+			swaps += 1;
 		}
 		// determine how many times to swap columns
 		for (int i = 0; i < swaps; i++) {
@@ -347,7 +346,8 @@ public class PuzzleGenerator {
 	private static void changeEditabilityOfGame() {
 		for (int r = 0; r < 9; r++) {
 			for (int c = 0; c < 9; c++) {
-				//for every remaining non empty Block, set its editablity to false
+				// for every remaining non empty Block, set its editablity to
+				// false
 				if (currentGame[r][c].getValue() != 0) {
 					currentGame[r][c].setEditable(false);
 				}
@@ -356,16 +356,17 @@ public class PuzzleGenerator {
 	}
 
 	/**
-	 * Checks to see if every square in the puzzle is complete.
-	 * If every square is complete, check if the game is valid.
-	 * If the game is complete and valid, return true.
+	 * Checks to see if every square in the puzzle is complete. If every square
+	 * is complete, check if the game is valid. If the game is complete and
+	 * valid, return true.
+	 * 
 	 * @return
 	 */
 	public static boolean checkComplete() {
-		//for every Block in the puzzle
+		// for every Block in the puzzle
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
-				//if a block is empty, return false
+				// if a block is empty, return false
 				if (currentGame[i][j].getValue() == 0) {
 					return false;
 				}

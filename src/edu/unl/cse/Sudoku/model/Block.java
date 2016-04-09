@@ -4,80 +4,79 @@ public class Block {
 
 	private int value;
 	private boolean editable;
-	private int[] notes= {};
-	
-	public Block(int value, boolean editable){
-		
+	private boolean[] notes = new boolean[9];
+
+	public Block(int value, boolean editable) {
 		this.value = value;
 		this.editable = editable;
 	}
-	
+
 	/**
 	 * Getter for the value of the Block
-	 * @return value
 	 */
-	public int getValue(){
+	public int getValue() {
 		return this.value;
 	}
-	
+
 	/**
-	 * Setter for the value of the Block
-	 * @param newVal
+	 * Setter for the value of the Block. Value is only changed if the block is
+	 * editable.
 	 */
-	public void setValue(int newVal){
+	public void setValue(int newVal) {
 		if (this.isEditable()) {
 			this.value = newVal;
 		}
 	}
-	
+
 	/**
 	 * Returns if the current block is editable
-	 * @return
 	 */
 	public boolean isEditable() {
 		return editable;
 	}
 
 	/**
-	 * Setter for the edit-ability of the block
-	 * @param editable
-	 */
-	public void setEditable(boolean editable) {
-		this.editable = editable;
-	}
-	
-	/**
 	 * Getter for the notes of this block
+	 * 
 	 * @return notes
 	 */
-	int[] getNotes(){
+	public boolean[] getNotes() {
 		return this.notes;
 	}
-	
+
 	/**
-	 * Method to add an integer to the list of notes
-	 * for this Block
+	 * Method to add an integer to the list of notes for this Block
+	 * 
 	 * @param note
+	 *            : should be in the range of [1--9]
 	 */
-	public void addNote(int note){
-		//TODO:
-		
+	public void addNote(int note) {
+		this.notes[note - 1] = true;
 	}
-	
+
 	/**
-	 * Method to remove an integer from the list of notes
-	 * for this Block
+	 * Method to remove an integer from the list of notes for this Block
+	 * 
 	 * @param note
+	 *            : should be in the range of [1-9]
 	 */
-	void removeNote(int note){
-		//TODO:
-		
+	void removeNote(int note) {
+		this.notes[note - 1] = false;
 	}
-	
+
 	/**
 	 * Method to remove ALL notes from a Block
 	 */
-	void clearNotes(){
-		//TODO:
+	void clearNotes() {
+		for (int i = 0; i < 9; i++) {
+			this.notes[i] = false;
+		}
+	}
+
+	/**
+	 * Method to set the editable variable of the block.
+	 */
+	public void setEditable(boolean b) {
+		this.editable = b;
 	}
 }
