@@ -1,5 +1,6 @@
 package edu.unl.cse.Sudoku.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -7,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -19,10 +21,10 @@ public class SudokuPanel extends JPanel implements ActionListener {
 	public BlockPanel[][] gamePanels = new BlockPanel[9][9];
 	private BlockPanel selected = null;
 	public static Stack moves = new Stack();;
-	public boolean editingNotes;
+	public boolean editingNotes = false;
 	public JButton newGameButton;
 	public JButton undoButton;
-	public JButton checkButton;
+	public JButton notesButton;
 
 	// PHASE TWO REQUIREMENTS
 	// TODO: CHECK IF EACH TILE IS VALID AS IT IS PLACED
@@ -86,16 +88,18 @@ public class SudokuPanel extends JPanel implements ActionListener {
 				this.undoButton, 5, 1);
 		panel.add(buttonBlock);
 
-		this.checkButton = new JButton("Check");
-		this.checkButton.setFocusable(false);
-		this.checkButton.addActionListener(this);
+		this.notesButton = new JButton("Edit Notes");
+		this.notesButton.setFocusable(false);
+		this.notesButton.addActionListener(this);
 		buttonBlock = Utilities.createPanelWithComponentCentered(
-				this.checkButton, 5, 1);
+				this.notesButton, 5, 1);
 		panel.add(buttonBlock);
 		return panel;
 	}
 
-	@Override
+	/**
+	 * Method to handle buttons being pressed.
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (this.newGameButton == e.getSource()) {
 			MainFrame.isTitleScreen = true;
@@ -106,61 +110,107 @@ public class SudokuPanel extends JPanel implements ActionListener {
 				p.getBlock().setValue(c.getPrevVal());
 				p.update();
 			}
-		} else if (this.checkButton == e.getSource()) {
-			if (PuzzleGenerator.checkComplete()) {
-				JOptionPane.showMessageDialog(this, "You won!", "Check Game",
-						JOptionPane.PLAIN_MESSAGE, null);
-			} else {
-				JOptionPane.showMessageDialog(this, "Game is not valid.",
-						"Check Game", JOptionPane.PLAIN_MESSAGE, null);
-			}
+			isCorrect();
+		} else if (this.notesButton == e.getSource()) {
+			editingNotes = !editingNotes;
 		}
 	}
 
+	/**
+	 * Method to handle a key being pressed. Called from the launcher when a key is pressed.
+	 * @param e
+	 */
 	public void keyReleased(KeyEvent e) {
-		// parse which key was pressed
+		// parse which key was pressed		
 		int val = -1;
-		switch (e.getKeyChar()) {
-		case '1':
+		switch (e.getKeyCode()) {
+		case 49: //#1
+		case 97:
 			val = 1;
 			break;
-		case '2':
+		case 50: //#2
+		case 98:
 			val = 2;
 			break;
-		case '3':
+		case 51: //#3
+		case 99:
 			val = 3;
 			break;
-		case '4':
+		case 52: //#4
+		case 100:
 			val = 4;
 			break;
-		case '5':
+		case 53: //#5
+		case 101:
 			val = 5;
 			break;
-		case '6':
+		case 54: //#6
+		case 102:
 			val = 6;
 			break;
-		case '7':
+		case 55: //#7
+		case 103:
 			val = 7;
 			break;
-		case '8':
+		case 56: //#8
+		case 104:
 			val = 8;
 			break;
-		case '9':
+		case 57: //#9
+		case 105:
 			val = 9;
 			break;
-		case '\u0008':
+		case 8: //#backspace and delete
+		case 127:
 			val = 0;
 			break;
+		case 37: //left arrow
+			if(selected != null){
+				if(selected.getRow() > 0){
+					selected.deselectPanel();
+					selected = gamePanels[selected.getRow()][selected.getCol()-1];
+					selected.selectPanel();
+				}
+			}
+			break;
+		case 38: //up arrow
+			if(selected != null){
+				if(selected.getCol() > 0){
+					selected.deselectPanel();
+					selected = gamePanels[selected.getRow()-1][selected.getCol()];
+					selected.selectPanel();
+				}
+			}
+			break;
+		case 39: //right arrow
+			if(selected != null){
+				if(selected.getRow() < 8){
+					selected.deselectPanel();
+					selected = gamePanels[selected.getRow()][selected.getCol()+1];
+					selected.selectPanel();
+				}
+			}
+			break;
+		case 40: //down arrow
+			if(selected != null){
+				if(selected.getCol() < 8){
+					selected.deselectPanel();
+					selected = gamePanels[selected.getRow()+1][selected.getCol()];
+					selected.selectPanel();
+				}
+			}
+			break;
+		
 		default:
 			return;
 		}
 		// if the block is non null
-		if (selected != null) {
+		if (selected != null && val != -1) {
 			if (selected.getBlock().isEditable()) {
 				// if we are editing notes, then add the key pressed as a
 				// note to the selected Block
 				if (editingNotes) {
-					selected.getBlock().addNote(val);
+					selected.getBlock().toggleNote(val);
 					// otherwise change the value of the block
 				} else {
 					Node temp = new Node(null, new Change(selected.getBlock()
@@ -171,9 +221,60 @@ public class SudokuPanel extends JPanel implements ActionListener {
 				}
 			}
 		}
-		PuzzleGenerator.checkComplete();
+		if(isCorrect() && isComplete()){
+			JOptionPane.showMessageDialog(this, "You won!", "Check Game",
+					JOptionPane.PLAIN_MESSAGE, null);
+		}
+		
 	}
 
+	public boolean isComplete(){
+		for(int r =0; r< 9;r++){
+			for(int c = 0; c<9; c++){
+				if(gamePanels[r][c].getBlock().getValue() == 0){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	public boolean isCorrect(){
+		boolean ret = true;
+		ArrayList<BlockPanel> errors = new ArrayList<BlockPanel>();
+		for(int con = 0; con < 9; con++){
+			for(int v1 = 0; v1 < 9; v1++){
+				for(int v2 = v1+1; v2 < 9; v2++){
+					// duplicate in row
+					if(gamePanels[con][v1].getBlock().getValue() != 0 && gamePanels[con][v2].getBlock().getValue() != 0 ){
+						if(gamePanels[con][v1].getBlock().getValue() == gamePanels[con][v2].getBlock().getValue() ){
+							errors.add(gamePanels[con][v1]);
+							errors.add(gamePanels[con][v2]);
+							ret = false;
+						}
+					}
+					//duplicate in column
+					if(gamePanels[v1][con].getBlock().getValue() != 0 && gamePanels[v2][con].getBlock().getValue() != 0 ){
+						if(gamePanels[v1][con].getBlock().getValue() == gamePanels[v2][con].getBlock().getValue() ){
+							errors.add(gamePanels[v1][con]);
+							errors.add(gamePanels[v2][con]);
+							ret = false;
+						}
+					}
+					gamePanels[con][v1].update();
+					gamePanels[v1][con].update();
+					gamePanels[con][v1].setBackground(Color.black);
+					gamePanels[v1][con].setBackground(Color.black);
+				}
+			}
+		}
+		for(BlockPanel e : errors){
+			e.setBackground(Color.red);
+		}
+		return ret;
+	}
+	
+	
 	// ------------------------MOUSE LISTENER CLASS---------------------
 	/**
 	 * This class handles mouse button events. left click, right click, mouse

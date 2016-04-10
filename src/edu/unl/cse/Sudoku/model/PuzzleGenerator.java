@@ -131,11 +131,9 @@ public class PuzzleGenerator {
 				if (currentGame[r][c] != null && currentGame[r][c2] != null) {
 					// make sure they are also non zero because zero is
 					// considered "empty"
-					if (currentGame[r][c].getValue() != 0
-							&& currentGame[r][c2].getValue() != 0) {
+					if (currentGame[r][c].getValue() != 0 && currentGame[r][c2].getValue() != 0) {
 						// if two elements in a row are equal, return false
-						if (currentGame[r][c].getValue() == currentGame[r][c2]
-								.getValue()) {
+						if (currentGame[r][c].getValue() == currentGame[r][c2].getValue()) {
 							return false;
 						}
 					}
@@ -346,32 +344,12 @@ public class PuzzleGenerator {
 	private static void changeEditabilityOfGame() {
 		for (int r = 0; r < 9; r++) {
 			for (int c = 0; c < 9; c++) {
-				// for every remaining non empty Block, set its editablity to
+				// for every remaining non empty Block, set its edit-ability to
 				// false
 				if (currentGame[r][c].getValue() != 0) {
 					currentGame[r][c].setEditable(false);
 				}
 			}
 		}
-	}
-
-	/**
-	 * Checks to see if every square in the puzzle is complete. If every square
-	 * is complete, check if the game is valid. If the game is complete and
-	 * valid, return true.
-	 * 
-	 * @return
-	 */
-	public static boolean checkComplete() {
-		// for every Block in the puzzle
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 9; j++) {
-				// if a block is empty, return false
-				if (currentGame[i][j].getValue() == 0) {
-					return false;
-				}
-			}
-		}
-		return checkGameValid();
 	}
 }

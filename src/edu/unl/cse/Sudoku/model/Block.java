@@ -50,8 +50,8 @@ public class Block {
 	 * @param note
 	 *            : should be in the range of [1--9]
 	 */
-	public void addNote(int note) {
-		this.notes[note - 1] = true;
+	public void toggleNote(int note) {
+		this.notes[note - 1] = !this.notes[note - 1];
 	}
 
 	/**

@@ -3,6 +3,7 @@ package edu.unl.cse.Sudoku.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.*;
 
@@ -61,9 +62,10 @@ public class BlockPanel extends JPanel {
 		this.displayNumberBlock.setLayout(new BorderLayout());
 		// create a new label for the numbers, set the font of the label, add
 		// the label to the number box
-		this.label = new JLabel("", SwingConstants.CENTER);
-		this.label.setFont(new Font("Serif", Font.PLAIN, 50));
-		this.displayNumberBlock.add(this.label, BorderLayout.CENTER);
+//		this.update();
+//		this.uplabel = new JLabel("", SwingConstants.CENTER);
+//		this.label.setFont(new Font("Serif", Font.PLAIN, 50));
+//		this.displayNumberBlock.add(this.label, BorderLayout.CENTER);
 	}
 
 	/**
@@ -117,9 +119,26 @@ public class BlockPanel extends JPanel {
 	 */
 	public void update() {
 		if (this.block.getValue() != 0) {
-			this.label.setText("" + this.block.getValue());
+			this.displayNumberBlock.removeAll();
+			this.displayNumberBlock.setLayout(new GridLayout(1,1));
+			this.label = new JLabel("" + this.block.getValue(), SwingConstants.CENTER);
+			this.label.setFont(new Font("Serif", Font.PLAIN, 50));
+			this.displayNumberBlock.add(this.label, BorderLayout.CENTER);
+			
+			this.displayNumberBlock.revalidate();
 		} else {
-			this.label.setText("");
+			this.displayNumberBlock.removeAll();
+			this.displayNumberBlock.setLayout(new GridLayout(3,3));
+			
+			for(int i = 0; i < 9; i++){
+				String temp = "";
+				if(this.getBlock().getNotes()[i]){
+					temp = "" + (i+1);
+				}
+				this.displayNumberBlock.add(new JLabel(temp));
+			}
+			
+			this.displayNumberBlock.revalidate();
 		}
 	}
 
