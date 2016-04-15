@@ -24,7 +24,7 @@ public class SudokuPanel extends JPanel implements ActionListener {
 	public boolean editingNotes = false;
 	public JButton newGameButton;
 	public JButton undoButton;
-	public JButton notesButton;
+	public JRadioButton notesButton;
 
 	// PHASE TWO REQUIREMENTS
 	// TODO: CHECK IF EACH TILE IS VALID AS IT IS PLACED
@@ -88,7 +88,9 @@ public class SudokuPanel extends JPanel implements ActionListener {
 				this.undoButton, 5, 1);
 		panel.add(buttonBlock);
 
-		this.notesButton = new JButton("Edit Notes");
+		this.notesButton = new JRadioButton("Edit Notes");
+		
+//		this.notesButton = new JButton("Edit Notes");
 		this.notesButton.setFocusable(false);
 		this.notesButton.addActionListener(this);
 		buttonBlock = Utilities.createPanelWithComponentCentered(
@@ -166,7 +168,7 @@ public class SudokuPanel extends JPanel implements ActionListener {
 			break;
 		case 37: //left arrow
 			if(selected != null){
-				if(selected.getRow() > 0){
+				if(selected.getCol() > 0){
 					selected.deselectPanel();
 					selected = gamePanels[selected.getRow()][selected.getCol()-1];
 					selected.selectPanel();
@@ -175,7 +177,7 @@ public class SudokuPanel extends JPanel implements ActionListener {
 			break;
 		case 38: //up arrow
 			if(selected != null){
-				if(selected.getCol() > 0){
+				if(selected.getRow() > 0){
 					selected.deselectPanel();
 					selected = gamePanels[selected.getRow()-1][selected.getCol()];
 					selected.selectPanel();
@@ -184,7 +186,7 @@ public class SudokuPanel extends JPanel implements ActionListener {
 			break;
 		case 39: //right arrow
 			if(selected != null){
-				if(selected.getRow() < 8){
+				if(selected.getCol() < 8){
 					selected.deselectPanel();
 					selected = gamePanels[selected.getRow()][selected.getCol()+1];
 					selected.selectPanel();
@@ -193,7 +195,7 @@ public class SudokuPanel extends JPanel implements ActionListener {
 			break;
 		case 40: //down arrow
 			if(selected != null){
-				if(selected.getCol() < 8){
+				if(selected.getRow() < 8){
 					selected.deselectPanel();
 					selected = gamePanels[selected.getRow()+1][selected.getCol()];
 					selected.selectPanel();

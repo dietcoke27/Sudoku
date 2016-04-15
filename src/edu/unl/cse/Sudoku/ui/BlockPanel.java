@@ -60,12 +60,6 @@ public class BlockPanel extends JPanel {
 				SpringLayout.HEIGHT, this.displayNumberBlock);
 		// set a layout for the interior number panel
 		this.displayNumberBlock.setLayout(new BorderLayout());
-		// create a new label for the numbers, set the font of the label, add
-		// the label to the number box
-//		this.update();
-//		this.uplabel = new JLabel("", SwingConstants.CENTER);
-//		this.label.setFont(new Font("Serif", Font.PLAIN, 50));
-//		this.displayNumberBlock.add(this.label, BorderLayout.CENTER);
 	}
 
 	/**
@@ -137,7 +131,6 @@ public class BlockPanel extends JPanel {
 				}
 				this.displayNumberBlock.add(new JLabel(temp));
 			}
-			
 			this.displayNumberBlock.revalidate();
 		}
 	}
