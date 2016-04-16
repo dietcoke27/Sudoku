@@ -4,11 +4,20 @@ public class Block {
 
 	private int value;
 	private boolean editable;
-	private boolean[] notes = new boolean[9];
+	private boolean[] notes;
 
+	/**
+	 * Constructor for a Block. Assigns the values passed, and creates an array of notes that is initially false.
+	 * @param value
+	 * @param editable
+	 */
 	public Block(int value, boolean editable) {
 		this.value = value;
 		this.editable = editable;
+		this.notes = new boolean[9];
+		for(int i = 0; i < notes.length; i++){
+			notes[i] = false;
+		}
 	}
 
 	/**
@@ -51,6 +60,9 @@ public class Block {
 	 *            : should be in the range of [1--9]
 	 */
 	public void toggleNote(int note) {
+		if(note < 1 || note >9){
+			return;
+		}
 		this.notes[note - 1] = !this.notes[note - 1];
 	}
 
@@ -61,6 +73,9 @@ public class Block {
 	 *            : should be in the range of [1-9]
 	 */
 	void removeNote(int note) {
+		if(note < 1 || note >9){
+			return;
+		}
 		this.notes[note - 1] = false;
 	}
 

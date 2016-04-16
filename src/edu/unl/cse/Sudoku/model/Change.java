@@ -26,8 +26,12 @@ public class Change {
 	 * Setter for the previous value variable of the Block change
 	 * 
 	 * @param prev
+	 *            : Must be in the range of [0-9]
 	 */
 	public void setPrevVal(int prev) {
+		if (prev < 0 || prev > 9) {
+			return;
+		}
 		this.prevVal = prev;
 	}
 
@@ -35,8 +39,12 @@ public class Change {
 	 * Setter for the row in which the Changed Block lives
 	 * 
 	 * @param r
+	 *            : Must be in the range of [0-8]
 	 */
 	public void setRow(int r) {
+		if (r < 0 || r > 8) {
+			return;
+		}
 		this.row = r;
 	}
 
@@ -44,8 +52,12 @@ public class Change {
 	 * Setter for the column in which the changed Block lives
 	 * 
 	 * @param c
+	 *            : Must be in the range of [0-8]
 	 */
 	public void setCol(int c) {
+		if (c < 0 || c > 8) {
+			return;
+		}
 		this.col = c;
 	}
 

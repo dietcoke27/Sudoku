@@ -19,8 +19,8 @@ public class SudokuPanel extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	public static int difficulty;
 	public BlockPanel[][] gamePanels = new BlockPanel[9][9];
-	private BlockPanel selected = null;
-	public static Stack moves = new Stack();;
+	private BlockPanel selected;
+	public static Stack moves = new Stack();
 	public boolean editingNotes = false;
 	public JButton newGameButton;
 	public JButton undoButton;
@@ -40,6 +40,7 @@ public class SudokuPanel extends JPanel implements ActionListener {
 	 * Generates a valid game, and displays it on the screen
 	 */
 	public SudokuPanel() {
+		this.selected = null;
 		PuzzleGenerator.generateGame(difficulty);
 		this.setLayout(new GridLayout(3, 3));
 		this.requestFocus();

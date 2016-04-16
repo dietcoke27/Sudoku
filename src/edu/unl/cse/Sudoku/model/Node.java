@@ -53,5 +53,4 @@ public class Node {
 	public void setChange(Change change) {
 		this.change = change;
 	}
-
 }
