@@ -69,6 +69,7 @@ public class TitlePanel extends JPanel implements ActionListener {
 		} else if (this.hardButton == e.getSource()) {
 			SudokuPanel.difficulty = 3;
 		}
+		SudokuPanel.blockSize = 3;
 		MainFrame.isTitleScreen = false;
 	}
 }

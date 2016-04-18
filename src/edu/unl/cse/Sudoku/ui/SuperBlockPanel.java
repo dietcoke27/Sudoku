@@ -12,7 +12,7 @@ public class SuperBlockPanel extends JPanel {
 
 	public SuperBlockPanel() {
 		this.setBackground(Color.BLACK);
-		this.displayPanel = new JPanel(new GridLayout(3, 3));
+		this.displayPanel = new JPanel(new GridLayout(SudokuPanel.blockSize, SudokuPanel.blockSize));
 		this.add(this.displayPanel);
 
 		// create and set a new layout for the BlockPanel

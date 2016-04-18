@@ -21,8 +21,6 @@ public class BlockPanel extends JPanel {
 	private int col;
 	private Color dispNormal;
 	private Color dispSelected;
-	private Color backNormal;
-	private Color backError;
 
 	/**
 	 * Constructor for the BlockPanel class. BlockPanel is a JPanel that
@@ -35,9 +33,6 @@ public class BlockPanel extends JPanel {
 	public BlockPanel(int row, int col) {
 		this.row = row;
 		this.col = col;
-		this.backNormal = Color.black;
-		this.backError = Color.red;
-
 		this.setBackground(Color.black);
 
 		// create a panel inside the BlockPanel to display the number
@@ -116,7 +111,7 @@ public class BlockPanel extends JPanel {
 			this.displayNumberBlock.removeAll();
 			this.displayNumberBlock.setLayout(new GridLayout(1,1));
 			this.label = new JLabel("" + this.block.getValue(), SwingConstants.CENTER);
-			this.label.setFont(new Font("Serif", Font.PLAIN, 50));
+			this.label.setFont(new Font("Serif", Font.PLAIN, 25));
 			this.displayNumberBlock.add(this.label, BorderLayout.CENTER);
 			
 			this.displayNumberBlock.revalidate();
@@ -124,12 +119,14 @@ public class BlockPanel extends JPanel {
 			this.displayNumberBlock.removeAll();
 			this.displayNumberBlock.setLayout(new GridLayout(3,3));
 			
-			for(int i = 0; i < 9; i++){
+			for(int i = 0; i < SudokuPanel.gameSize; i++){
 				String temp = "";
 				if(this.getBlock().getNotes()[i]){
 					temp = "" + (i+1);
 				}
-				this.displayNumberBlock.add(new JLabel(temp));
+				JLabel tempLabel = new JLabel(temp);
+				tempLabel.setFont(new Font("Serif", Font.PLAIN, 10));
+				this.displayNumberBlock.add(tempLabel);
 			}
 			this.displayNumberBlock.revalidate();
 		}

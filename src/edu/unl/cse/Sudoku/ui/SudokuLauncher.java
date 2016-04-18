@@ -10,6 +10,7 @@ public class SudokuLauncher {
 
 	public static TitlePanel title;
 	public static SudokuPanel game;
+	private static LauncherKL kl;
 
 	public static void main(String args[]) {
 		// create the main window for the game
@@ -62,7 +63,11 @@ public class SudokuLauncher {
 	public static void showGame(MainFrame main) {
 		main.getContentPane().removeAll();
 		game = new SudokuPanel();
-		main.addKeyListener(new LauncherKL());
+		if(kl == null){
+			kl = new LauncherKL();
+			main.addKeyListener(kl);
+		}
+		
 		main.add(game);
 
 		JPanel buttonPanel = game.createButtonPanel();

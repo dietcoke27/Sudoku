@@ -8,8 +8,8 @@ public class PuzzleGenerator {
 	private static Block[][] base;
 	public static Block[][] currentGame;
 	private static int dif;
-	private static int blockSize = 3;
-	private static int gameSize = blockSize * blockSize;
+	private static int blockSize;
+	private static int gameSize;
 
 	/**
 	 * Method to generate a valid puzzle based on difficulty.
@@ -17,57 +17,17 @@ public class PuzzleGenerator {
 	 * @param difficulty
 	 *            : should be in the range of [1-3]
 	 */
-	public static void generateGame(int difficulty) {
-		dif = difficulty;
-		// // manually create a correct base puzzle that is correct and always
-		// the
-		// // same
-		// Block[] r0 = { new Block(1, true), new Block(2, true),
-		// new Block(3, true), new Block(4, true), new Block(5, true),
-		// new Block(6, true), new Block(7, true), new Block(8, true),
-		// new Block(9, true) };
-		// Block[] r1 = { new Block(4, true), new Block(5, true),
-		// new Block(6, true), new Block(7, true), new Block(8, true),
-		// new Block(9, true), new Block(1, true), new Block(2, true),
-		// new Block(3, true) };
-		// Block[] r2 = { new Block(7, true), new Block(8, true),
-		// new Block(9, true), new Block(1, true), new Block(2, true),
-		// new Block(3, true), new Block(4, true), new Block(5, true),
-		// new Block(6, true) };
-		//
-		// Block[] r3 = { new Block(2, true), new Block(3, true),
-		// new Block(1, true), new Block(5, true), new Block(6, true),
-		// new Block(4, true), new Block(8, true), new Block(9, true),
-		// new Block(7, true) };
-		// Block[] r4 = { new Block(5, true), new Block(6, true),
-		// new Block(4, true), new Block(8, true), new Block(9, true),
-		// new Block(7, true), new Block(2, true), new Block(3, true),
-		// new Block(1, true) };
-		// Block[] r5 = { new Block(8, true), new Block(9, true),
-		// new Block(7, true), new Block(2, true), new Block(3, true),
-		// new Block(1, true), new Block(5, true), new Block(6, true),
-		// new Block(4, true) };
-		//
-		// Block[] r6 = { new Block(3, true), new Block(1, true),
-		// new Block(2, true), new Block(6, true), new Block(4, true),
-		// new Block(5, true), new Block(9, true), new Block(7, true),
-		// new Block(8, true) };
-		// Block[] r7 = { new Block(6, true), new Block(4, true),
-		// new Block(5, true), new Block(9, true), new Block(7, true),
-		// new Block(8, true), new Block(3, true), new Block(1, true),
-		// new Block(2, true) };
-		// Block[] r8 = { new Block(9, true), new Block(7, true),
-		// new Block(8, true), new Block(3, true), new Block(1, true),
-		// new Block(2, true), new Block(6, true), new Block(4, true),
-		// new Block(5, true) };
-		//
-		// // Block[][] basePuzzle = { r0, r1, r2, r3, r4, r5, r6, r7, r8 };
+	public static void generateGame(int dif, int blockSize) {
+		PuzzleGenerator.dif = dif;
+		PuzzleGenerator.blockSize = blockSize;
+		PuzzleGenerator.gameSize = blockSize * blockSize;
+
 		genBasePuzzle();
 		do {
 			// try to make a new puzzle based on making swaps to rows and
 			// columns
 			currentGame = base;
-			makeSwaps();
+//			makeSwaps();
 			// make sure the game is still valid before proceeding
 		} while (!checkGameValid());
 		createEmptyBlocksForPuzzle();
@@ -325,7 +285,7 @@ public class PuzzleGenerator {
 				continue;
 			}
 			// check against every other element in the matrix
-			for (int j = i + 1; j < 9; j++) {
+			for (int j = i + 1; j < gameSize; j++) {
 				// if the values of the two elements are the same, return false.
 				if (box[i / blockSize][i % blockSize].getValue() == box[j
 						/ blockSize][j % blockSize].getValue()) {
@@ -343,21 +303,24 @@ public class PuzzleGenerator {
 	 */
 	private static void makeSwaps() {
 		Random r = new Random();
-		int row1, row2, col1, col2, swaps = r.nextInt(blockSize)+blockSize;
+		int row1, row2, col1, col2, swaps = r.nextInt(blockSize) + blockSize;
 		for (int i = 0; i < swaps; i++) {
 			// randomly choose a column
 			col1 = r.nextInt(gameSize);
 			// generate a set of columns that you can swap with col1
 			ArrayList<Integer> temp = findSwapableCol(col1);
-			col2 = temp.get(r.nextInt(temp.size()));
-			swapColumns(col1, col2);
-
+			if (temp.size() != 0) {
+				col2 = temp.get(r.nextInt(temp.size()));
+				swapColumns(col1, col2);
+			}
 			// randomly choose 2 rows to swap, where the rows are not the same
 			row1 = r.nextInt(gameSize);
 			// generate a set of rows that you can swap with row1
 			temp = findSwapableRow(row1);
-			row2 = temp.get(r.nextInt(temp.size()));
-			swapRows(row1, row2);
+			if (temp.size() != 0) {
+				row2 = temp.get(r.nextInt(temp.size()));
+				swapRows(row1, row2);
+			}
 		}
 	}
 
@@ -380,8 +343,8 @@ public class PuzzleGenerator {
 				for (int blockIndex = 0; blockIndex < blockSize; blockIndex++) {
 					// for every element in the column in the block
 					boolean[] blockElementMatches = new boolean[blockSize];
-					for (int cIndex = 0; cIndex < 3; cIndex++) {
-						for (int colIndex = 0; colIndex < 3; colIndex++) {
+					for (int cIndex = 0; cIndex < blockSize; cIndex++) {
+						for (int colIndex = 0; colIndex < blockSize; colIndex++) {
 							if (currentGame[blockIndex * blockSize + cIndex][c]
 									.getValue() == currentGame[blockIndex
 									* blockSize + colIndex][col].getValue()) {
@@ -431,8 +394,8 @@ public class PuzzleGenerator {
 				for (int blockIndex = 0; blockIndex < blockSize; blockIndex++) {
 					// for every element in the column in the block
 					boolean[] blockElementMatches = new boolean[blockSize];
-					for (int rIndex = 0; rIndex < 3; rIndex++) {
-						for (int rowIndex = 0; rowIndex < 3; rowIndex++) {
+					for (int rIndex = 0; rIndex < blockSize; rIndex++) {
+						for (int rowIndex = 0; rowIndex < blockSize; rowIndex++) {
 							if (currentGame[r][blockIndex * blockSize + rIndex]
 									.getValue() == currentGame[row][blockIndex
 									* blockSize + rowIndex].getValue()) {
@@ -521,34 +484,38 @@ public class PuzzleGenerator {
 	 */
 	private static int[] genKeepers() {
 		Random rand = new Random();
+		int numToKeep;
 		int[] ret;
-		switch (dif) {
-		case 1:
-			ret = new int[4];
-			ret[0] = rand.nextInt(blockSize);
-			ret[1] = rand.nextInt(blockSize) + blockSize;
-			ret[2] = rand.nextInt(blockSize) + 2 * blockSize;
-			do {
-				ret[3] = rand.nextInt(gameSize);
-			} while (ret[3] == ret[0] || ret[3] == ret[1] || ret[3] == ret[2]);
-			break;
-		case 2:
-			ret = new int[3];
-			ret[0] = rand.nextInt(blockSize);
-			ret[1] = rand.nextInt(blockSize) + blockSize;
-			ret[2] = rand.nextInt(blockSize) + 2 * blockSize;
-			break;
-		case 3:
-			ret = new int[2];
-			ret[0] = rand.nextInt(gameSize);
-			do {
-				ret[1] = rand.nextInt(gameSize);
-			} while (ret[1] / blockSize == ret[0] / blockSize);
-			break;
-		default:
-			ret = new int[0];
-			break;
+
+		if (gameSize % 2 == 0) {
+			numToKeep = gameSize / 2 + 1 - dif;
+		} else {
+			numToKeep = (int) (Math.ceil(gameSize / 2.0) + 1 - dif);
 		}
-		return ret;
+		if (numToKeep < 1) {
+			numToKeep = 1;
+		}
+		ret = new int[numToKeep];
+
+		for(int keepIndex =0; keepIndex < numToKeep; keepIndex++){
+			if(keepIndex < blockSize){
+				do{
+					ret[keepIndex] = rand.nextInt(gameSize);
+				}while(!isDistributed(ret, keepIndex));
+			}else{
+				ret[keepIndex] = rand.nextInt(gameSize);
+			}
+		}		return ret;
+	}
+	
+	private static boolean isDistributed(int[] ret, int index){
+		for(int i =0; i <= index; i++){
+			for(int j = i+1; j <= index; j++){
+				if(ret[i]/blockSize == ret[j]/blockSize){
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 }

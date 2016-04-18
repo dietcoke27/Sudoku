@@ -1,5 +1,7 @@
 package edu.unl.cse.Sudoku.model;
 
+import edu.unl.cse.Sudoku.ui.SudokuPanel;
+
 public class Block {
 
 	private int value;
@@ -14,7 +16,7 @@ public class Block {
 	public Block(int value, boolean editable) {
 		this.value = value;
 		this.editable = editable;
-		this.notes = new boolean[9];
+		this.notes = new boolean[SudokuPanel.gameSize];
 		for(int i = 0; i < notes.length; i++){
 			notes[i] = false;
 		}
@@ -60,7 +62,7 @@ public class Block {
 	 *            : should be in the range of [1--9]
 	 */
 	public void toggleNote(int note) {
-		if(note < 1 || note >9){
+		if(note < 1 || note > notes.length){
 			return;
 		}
 		this.notes[note - 1] = !this.notes[note - 1];
@@ -73,7 +75,7 @@ public class Block {
 	 *            : should be in the range of [1-9]
 	 */
 	void removeNote(int note) {
-		if(note < 1 || note >9){
+		if(note < 1 || note > notes.length){
 			return;
 		}
 		this.notes[note - 1] = false;
@@ -83,7 +85,7 @@ public class Block {
 	 * Method to remove ALL notes from a Block
 	 */
 	void clearNotes() {
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < notes.length; i++) {
 			this.notes[i] = false;
 		}
 	}
