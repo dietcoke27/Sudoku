@@ -263,6 +263,7 @@ public class SudokuPanel extends JPanel implements ActionListener {
 				// note to the selected Block
 				if (editingNotes) {
 					selected.getBlock().toggleNote(val);
+					selected.update();
 					// otherwise change the value of the block
 				} else {
 					Node temp = new Node(null, new Change(selected.getBlock()
