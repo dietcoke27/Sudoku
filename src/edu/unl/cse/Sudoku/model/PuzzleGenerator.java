@@ -27,7 +27,7 @@ public class PuzzleGenerator {
 			// try to make a new puzzle based on making swaps to rows and
 			// columns
 			currentGame = base;
-//			makeSwaps();
+			makeSwaps();
 			// make sure the game is still valid before proceeding
 		} while (!checkGameValid());
 		createEmptyBlocksForPuzzle();
