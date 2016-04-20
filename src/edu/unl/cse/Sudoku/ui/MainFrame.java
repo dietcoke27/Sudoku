@@ -16,7 +16,8 @@ public class MainFrame extends JFrame {
 		// create and set a new layout for the content panel of the main window
 		this.getContentPane().setBackground(Color.black);
 		this.setVisible(true);
-		this.setSize(600, 500);
+		this.setSize(580, 500);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

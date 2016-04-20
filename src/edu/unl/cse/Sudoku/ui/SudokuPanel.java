@@ -6,13 +6,10 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.*;
-
 import edu.unl.cse.Sudoku.model.*;
 
 public class SudokuPanel extends JPanel implements ActionListener {
@@ -44,7 +41,7 @@ public class SudokuPanel extends JPanel implements ActionListener {
 	 */
 	public SudokuPanel() {
 		this.selected = null;
-		this.gameSize = blockSize*blockSize;
+		gameSize = blockSize*blockSize;
 		gamePanels = new BlockPanel[gameSize][gameSize];
 		PuzzleGenerator.generateGame(difficulty, blockSize);
 		this.setLayout(new GridLayout(blockSize, blockSize));
@@ -177,19 +174,17 @@ public class SudokuPanel extends JPanel implements ActionListener {
 						
 					if(a.getBlock().getValue() != 0 && b.getBlock().getValue() != 0 ){
 						if(a.getBlock().getValue() == b.getBlock().getValue() ){
-							System.out.println("con:"+con + " v1:"+v1 + " v2:"+v2 + 
-									" a:"+ (con/blockSize + v1/blockSize)+","+ (con%blockSize + v1%blockSize)+ 
-									" b:"+ (con/blockSize + v2/blockSize)+","+ (con%blockSize + v2%blockSize));
+//							System.out.println("con:"+con + " v1:"+v1 + " v2:"+v2 + 
+//									" a:"+ (con/blockSize + v1/blockSize)+","+ (con%blockSize + v1%blockSize)+ 
+//									" b:"+ (con/blockSize + v2/blockSize)+","+ (con%blockSize + v2%blockSize));
 							errors.add(a);
 							errors.add(b);
 							ret = false;
 						}
 					}
-					gamePanels[con][v1].update();
-					gamePanels[v1][con].update();
-					gamePanels[con][v1].setBackground(Color.black);
-					gamePanels[v1][con].setBackground(Color.black);
 				}
+				gamePanels[con][v1].update();
+				gamePanels[con][v1].setBackground(Color.black);
 			}
 		}
 		for(BlockPanel e : errors){
